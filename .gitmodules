@@ -1,0 +1,3 @@
+[submodule "src/sole"]
+	path = src/sole
+	url = git@github.com:jessica-mulein/sole.git

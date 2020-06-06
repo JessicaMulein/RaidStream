@@ -144,7 +144,7 @@ namespace RaidStream {
 
     }
 
-    const unsigned char RaidStream::CalculateKnownData(RaidFile* file, uintmax_t offset, const unsigned char data, bool *spare = nullptr) {
+    const unsigned char RaidStream::CalculateKnownData(RaidFile* file, uintmax_t offset, const unsigned char data, bool *spare) {
         // TODO: there's a dependency order required here
         // [ A | B | C | D | E ]
         // A = DATA

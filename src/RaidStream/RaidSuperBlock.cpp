@@ -1,3 +1,4 @@
+#include "RaidStream.hpp"
 #include "RaidSuperBlock.hpp"
 
 namespace RaidStream {

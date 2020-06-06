@@ -1,3 +1,4 @@
+#include "RaidStream.hpp"
 #include "RaidFileStripe.hpp"
 
 namespace RaidStream {

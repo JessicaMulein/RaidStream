@@ -1,4 +1,4 @@
-
+#include "RaidStream/RaidStream.hpp"
 #include "RaidStream/RaidFileBlock.hpp"
 
 
@@ -18,7 +18,7 @@ namespace RaidStream {
         return _uncommittedWrites;
     }
 
-    bool RaidFileBlock::ReleaseMemory(bool force = false) {
+    bool RaidFileBlock::ReleaseMemory(bool force) {
         if (!force && NeedsSync()) return false;
         if (_bytes == nullptr) return true;
         delete _bytes;
@@ -26,7 +26,7 @@ namespace RaidStream {
         return true;
     }
 
-    bool RaidFileBlock::ReadBlockFromDisk(bool force = false) {
+    bool RaidFileBlock::ReadBlockFromDisk(bool force) {
         if (!force && (InMemory() || NeedsSync())) return false;
         AllocateMemory(); // will return false if it was already allocated
         // TODO: read from disk
@@ -36,7 +36,7 @@ namespace RaidStream {
         return true;
     }
 
-    bool RaidFileBlock::WriteBlockToDisk(bool force = false, bool keepMemory = true) {
+    bool RaidFileBlock::WriteBlockToDisk(bool force, bool keepMemory) {
         if (!force && !NeedsSync()) return false;
         // TODO: write to disk
         _uncommittedWrites = false;

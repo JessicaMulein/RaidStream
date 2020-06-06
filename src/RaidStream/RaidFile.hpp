@@ -11,6 +11,8 @@
 #include "RaidStream/RaidSuperBlock.hpp"
 
 namespace RaidStream {
+    class RaidConfiguration;
+
     class RaidFile {
     public:
         typedef std::map<RaidFileBlock::block_pos_t, RaidFileBlock> raid_block_map;

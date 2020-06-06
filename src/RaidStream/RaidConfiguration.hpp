@@ -20,19 +20,19 @@ namespace RaidStream {
         RaidConfiguration(RaidType type, std::vector<RaidFile> files, std::fstream *stdout = nullptr,
                           std::fstream *stderr = nullptr);
 
-        inline std::vector<RaidFile> Files();
+        std::vector<RaidFile> Files();
 
-        inline std::pair<unsigned int, unsigned int> logStats();
+        std::pair<unsigned int, unsigned int> logStats();
 
-        inline void log(std::string data);
+        void log(std::string data);
 
-        inline void warn(std::string warning);
+        void warn(std::string warning);
 
-        inline void setStdOut(std::fstream *fs);
+        void setStdOut(std::fstream *fs);
 
-        inline void setStdErr(std::fstream *fs);
+        void setStdErr(std::fstream *fs);
 
-        inline sole::uuid UUID();
+        sole::uuid UUID();
 
     protected:
         const sole::uuid _uuid = sole::uuid4();

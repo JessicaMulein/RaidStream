@@ -27,49 +27,49 @@ namespace RaidStream {
         static const block_size_t BLOCK_SIZE = (4 * UNITS_MB); // Make sure this aligns with your disk!
         RaidFileBlock(uintmax_t nativeOffset);
 
-        inline bool InMemory();
+        bool InMemory();
 
-        inline bool NeedsSync();
+        bool NeedsSync();
 
-        inline bool ReleaseMemory(bool force = false);
+        bool ReleaseMemory(bool force = false);
 
-        inline bool ReadBlockFromDisk(bool force = false);
+        bool ReadBlockFromDisk(bool force = false);
 
-        inline bool WriteBlockToDisk(bool force = false, bool keepMemory = true);
+        bool WriteBlockToDisk(bool force = false, bool keepMemory = true);
 
-        inline const block_size_t BlockSize();
+        const block_size_t BlockSize();
 
-        inline const block_size_t BlockID();
+        const block_size_t BlockID();
 
-        inline block_data_type at(block_size_t offset);
+        block_data_type at(block_size_t offset);
 
         /** Writes data to memory, forces full block sync if immediateSync, bool to keep data in memory after write **/
-        inline bool
+        bool
         Set(block_size_t blockOffset, const block_data_type *data, size_t len, bool immediateSync = false,
             bool keepInMemory = true);
 
-        inline RaidFileBlock::block_data_type *Bytes();
+        RaidFileBlock::block_data_type *Bytes();
 
-        inline RaidFileBlock::block_data_type *BytesCopy();
+        RaidFileBlock::block_data_type *BytesCopy();
 
-        inline CRC32::crc crc32();
+        CRC32::crc crc32();
 
-        inline CRC64::crc crc64();
+        CRC64::crc crc64();
 
-        inline bool UpdateCRC32();
+        bool UpdateCRC32();
 
-        inline bool UpdateCRC64();
+        bool UpdateCRC64();
 
-        inline block_data_type* XorBlock(RaidFileBlock block);
+        block_data_type* XorBlock(RaidFileBlock block);
 
-        inline block_data_type* XorBlock(std::vector<RaidFileBlock> blocks);
+        block_data_type* XorBlock(std::vector<RaidFileBlock> blocks);
 
-        inline bool SwapBlockBytes(block_data_type* newBytes, bool forceRelease = false);
+        bool SwapBlockBytes(block_data_type* newBytes, bool forceRelease = false);
 
-        inline const sole::uuid UUID();
+        const sole::uuid UUID();
 
     protected:
-        inline bool AllocateMemory();
+        bool AllocateMemory();
 
         const sole::uuid _uuid = sole::uuid4();
         bool _uncommittedWrites = false;

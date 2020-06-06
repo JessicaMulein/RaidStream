@@ -36,42 +36,42 @@ namespace RaidStream {
             SPARE
         };
 
-        inline RaidFile(const char* filename,
+        RaidFile(const char* filename,
                         FileType type,
                         std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::ate | std::ios_base::binary
         );
 
-        inline const FileType Type() const;
+        const FileType Type() const;
 
-        inline const std::string FileName() const;
+        const std::string FileName() const;
 
-        inline uintmax_t SparseSize();
+        uintmax_t SparseSize();
 
-        inline uintmax_t Size();
+        uintmax_t Size();
 
-        inline void Size(uintmax_t size);
+        void Size(uintmax_t size);
 
-        inline uint64_t VirtualSize();
+        uint64_t VirtualSize();
 
-        inline void VirtualSize(uint64_t size);
+        void VirtualSize(uint64_t size);
 
-        inline FileStatus Status();
+        FileStatus Status();
 
-        inline bool Consistent();
+        bool Consistent();
 
-        inline bool Rebuilding();
+        bool Rebuilding();
 
-        inline unsigned int Mode();
+        unsigned int Mode();
 
-        inline void Mode(unsigned int mode);
+        void Mode(unsigned int mode);
 
-        inline void FlushBlock(RaidFileBlock::block_pos_t id, bool force = false, bool keepMemory = true);
+        void FlushBlock(RaidFileBlock::block_pos_t id, bool force = false, bool keepMemory = true);
 
-        inline const sole::uuid UUID();
+        const sole::uuid UUID();
 
-        inline void Configuration(RaidConfiguration* configuration);
+        void Configuration(RaidConfiguration* configuration);
 
-        inline RaidConfiguration* Configuration();
+        RaidConfiguration* Configuration();
 
     protected:
         RaidConfiguration* _configuration = nullptr;

@@ -176,7 +176,7 @@ namespace RaidStream {
                 UINT64_C(0x536fa08fdfd90e51), UINT64_C(0x29b7d047efec8728),
         };
 
-        static CRC64::crc crc64(CRC64::crc crc, const unsigned char *s, uint64_t l);
+        CRC64::crc crc64(CRC64::crc crc, const unsigned char *s, uint64_t l);
     }
 }
 #endif //RAIDSTREAM_CRC64_HPP

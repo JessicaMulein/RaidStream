@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <filesystem>
+#include <cassert>
 #include "RaidStream/RaidConfiguration.hpp"
 #include "RaidStream/RaidFile.hpp"
 

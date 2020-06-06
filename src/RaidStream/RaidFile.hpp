@@ -6,9 +6,9 @@
 #include <map>
 #include <sole/sole.hpp>
 #include "RaidStream/RaidStream.hpp"
+#include "RaidStream/RaidConfiguration.hpp"
 #include "RaidStream/RaidFileBlock.hpp"
 #include "RaidStream/RaidSuperBlock.hpp"
-#include "RaidStream/RaidConfiguration.hpp"
 
 namespace RaidStream {
     class RaidFile {

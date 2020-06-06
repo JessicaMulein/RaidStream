@@ -45,15 +45,15 @@ namespace RaidStream {
         }
     }
 
-    const block_size_t RaidFileBlock::BlockSize() {
+    const RaidFileBlock::block_size_t RaidFileBlock::BlockSize() {
         return BLOCK_SIZE;
     }
 
-    const block_size_t BlockID() {
+    const RaidFileBlock::block_size_t RaidFileBlock::BlockID() {
         return _blockID;
     }
 
-    block_data_type RaidFileBlock::at(block_size_t offset) {
+    RaidFileBlock::block_data_type RaidFileBlock::at(block_size_t offset) {
         if ((offset < 0) || (offset >= BLOCK_SIZE)) {
             throw std::invalid_argument("Invalid offset out of range");
         }
@@ -62,8 +62,8 @@ namespace RaidStream {
 
     /** Writes data to memory, forces full block sync if immediateSync, bool to keep data in memory after write **/
     bool
-    RaidFileBlock::Set(block_size_t blockOffset, const block_data_type *data, size_t len, bool immediateSync = false,
-                       bool keepInMemory = true) {
+    RaidFileBlock::Set(block_size_t blockOffset, const block_data_type *data, size_t len, bool immediateSync,
+                       bool keepInMemory) {
         size_t data_it = 0;
         for (size_t it = blockOffset; (it < BLOCK_SIZE) && (data_it < len); it++) {
             _bytes[it] = data[data_it++];
@@ -111,7 +111,7 @@ namespace RaidStream {
         return (oldCRC == _lastCRC64);
     }
 
-    block_data_type *RaidFileBlock::XorBlock(RaidFileBlock block) {
+    RaidFileBlock::block_data_type *RaidFileBlock::XorBlock(RaidFileBlock block) {
         block_data_type *ourBytes = Bytes();
         block_data_type *theirBytes = block.Bytes();
         block_data_type *xorBuf = new block_data_type[BLOCK_SIZE];

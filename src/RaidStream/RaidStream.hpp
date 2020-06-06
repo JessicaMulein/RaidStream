@@ -6,8 +6,8 @@
 #include <vector>
 #include <map>
 #include <filesystem>
-#include "RaidStream/RaidConfiguration.cpp"
-#include "RaidStream/RaidFile.cpp"
+#include "RaidStream/RaidConfiguration.hpp"
+#include "RaidStream/RaidFile.hpp"
 
 namespace RaidStream {
     class RaidStream {

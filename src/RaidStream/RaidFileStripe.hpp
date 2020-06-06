@@ -2,8 +2,8 @@
 #define RAIDSTREAM_RAIDFILESTRIPE_HPP
 
 #include <sole/sole.hpp>
-#include "RaidFile.cpp"
-#include "RaidFileBlock.cpp"
+#include "RaidStream/RaidFile.hpp"
+#include "RaidStream/RaidFileBlock.hpp"
 
 namespace RaidStream {
     enum RaidStripeType {

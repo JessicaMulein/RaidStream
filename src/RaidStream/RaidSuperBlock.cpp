@@ -11,7 +11,7 @@ namespace RaidStream {
         // fill new memory with guards
         std::memset(_bytes, 0xCC, BLOCK_SIZE);
         // set last byte to 00
-        _bytes[BLOCK_SIZE-1] = NULL;
+        _bytes[BLOCK_SIZE-1] = '\0';
         return true;
     }
 }

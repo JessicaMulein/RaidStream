@@ -9,6 +9,7 @@
 #include <cassert>
 #include "RaidStream/RaidConfiguration.hpp"
 #include "RaidStream/RaidFile.hpp"
+#include "RaidStream/RaidStream.hpp"
 
 namespace RaidStream {
     class RaidStream {

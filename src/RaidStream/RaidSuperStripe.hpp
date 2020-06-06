@@ -1,7 +1,8 @@
 #ifndef RAIDSTREAM_RAIDSUPERSTRIPE_HPP
 #define RAIDSTREAM_RAIDSUPERSTRIPE_HPP
 
-#include "RaidFileStripe.hpp"
+#include "RaidStream/RaidFileStripe.hpp"
+#include "RaidStream/RaidStream.hpp"
 
 namespace RaidStream {
     class RaidSuperStripe : RaidFileStripe {

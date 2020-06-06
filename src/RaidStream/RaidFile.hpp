@@ -5,6 +5,7 @@
 #include <fstream>
 #include <map>
 #include <sole/sole.hpp>
+#include "RaidStream/RaidStream.hpp"
 #include "RaidStream/RaidFileBlock.hpp"
 #include "RaidStream/RaidSuperBlock.hpp"
 #include "RaidStream/RaidConfiguration.hpp"

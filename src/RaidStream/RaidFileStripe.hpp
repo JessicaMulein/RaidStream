@@ -2,6 +2,7 @@
 #define RAIDSTREAM_RAIDFILESTRIPE_HPP
 
 #include <sole/sole.hpp>
+#include "RaidStream/RaidStream.hpp"
 #include "RaidStream/RaidFile.hpp"
 #include "RaidStream/RaidFileBlock.hpp"
 

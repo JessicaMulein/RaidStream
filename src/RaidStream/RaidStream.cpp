@@ -94,12 +94,12 @@ namespace RaidStream {
         return true;
     }
 
-    void RaidStream::Rebuild(bool forceRebuild = false) {
+    void RaidStream::Rebuild(bool forceRebuild) {
         if (!Online() || Rebuilding() || (Consistent() && !forceRebuild)) return;
         // TODO: Rebuild
     }
 
-    friend std::ostream &operator<<(std::ostream &os, const RaidStream &raidstream) {
+    std::ostream &operator<<(std::ostream &os, const RaidStream &raidstream) {
 
     }
 
@@ -120,7 +120,7 @@ namespace RaidStream {
 //            }
     }
 
-    void RaidStream::Seek(uintmax_t offset, bool seekSpares = false) {
+    void RaidStream::Seek(uintmax_t offset, bool seekSpares) {
         // TODO: write mutex
         if (!Online()) return;
 //            for (std::map<RaidFile*, std::fstream>::iterator it = _handles.begin(); it != _handles.end(); ++it) {
@@ -183,7 +183,7 @@ namespace RaidStream {
         assert(false);
     }
 
-    std::vector<unsigned char> RaidStream::readAll(uintmax_t offset, bool readSpares = false) {
+    std::vector<unsigned char> RaidStream::readAll(uintmax_t offset, bool readSpares) {
         std::vector<unsigned char> results;
         // seek all disks to the location
         Seek(offset, readSpares);

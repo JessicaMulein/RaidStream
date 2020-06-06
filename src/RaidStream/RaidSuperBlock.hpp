@@ -1,7 +1,8 @@
 #ifndef RAIDSTREAM_RAIDSUPERBLOCK_HPP
 #define RAIDSTREAM_RAIDSUPERBLOCK_HPP
 
-#include "RaidFileBlock.hpp"
+#include "RaidStream/RaidFileBlock.hpp"
+#include "RaidStream/RaidStream.hpp"
 
 namespace RaidStream {
     class RaidSuperBlock : RaidFileBlock {

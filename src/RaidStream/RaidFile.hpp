@@ -32,7 +32,8 @@ namespace RaidStream {
 
         enum FileType {
             DATA,
-            PARITY_XOR,
+            PARITY_MIRROR, // 1:1, multiples of 2
+            PARITY_XOR,    // theoretically can have a 2 disk system with one disk being a xor reciprocal
             PARITY_RS,
             PARITY_EXPERIMENTAL,
             SPARE

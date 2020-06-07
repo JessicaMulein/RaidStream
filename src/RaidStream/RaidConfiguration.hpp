@@ -10,11 +10,11 @@ namespace RaidStream {
     class RaidConfiguration {
     public:
         enum RaidType {
-            JBOD,
-            MIRROR,
-            RAID5,
-            RAID6,
-            EXPERIMENTAL
+            JBOD,        // 0 raid parity algorithms: 0% overhead, 0% redundancy
+            MIRROR,      // 0 raid parity algorithms: 50% overhead, 50% redundancy, requires N % 2 = 0
+            RAID5,       // 1 raid parity algorithm, XOR:
+            RAID6,       // 2 raid parity algorithms, XOR, RS
+            EXPERIMENTAL // 3 raid parity algorithms XOR, RS, XOR+RS(?)
         };
 
         RaidConfiguration(RaidType type, std::vector<RaidFile> files, std::fstream *stdout = nullptr,

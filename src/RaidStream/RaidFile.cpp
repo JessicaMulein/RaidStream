@@ -2,9 +2,10 @@
 #include "RaidStream/RaidFile.hpp"
 
 namespace RaidStream {
-    RaidFile::RaidFile(const char* filename, FileType type, std::ios_base::openmode mode) :
-            _fileType{type},
+    RaidFile::RaidFile(const char* filename, FileType type, uintmax_t sizeOnDisk, std::ios_base::openmode mode) :
             _fileName{std::string(filename)},
+            _fileType{type},
+            _actualSize{sizeOnDisk},
             _fileMode{mode},
             _fileStream{new std::ofstream(filename, mode)}
         {

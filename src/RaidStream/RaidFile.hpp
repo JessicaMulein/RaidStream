@@ -40,6 +40,7 @@ namespace RaidStream {
 
         RaidFile(const char* filename,
                         FileType type,
+                        uintmax_t sizeOnDisk = 0,
                         std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::ate | std::ios_base::binary
         );
 

@@ -2,8 +2,8 @@
 
 namespace RaidStream {
 
-    RaidStream::RaidStream(RaidConfiguration configuration, bool existingArray, bool allowInitializeArray) :
-        _configuration{configuration},
+    RaidStream::RaidStream(std::shared_ptr<RaidConfiguration> configuration, bool existingArray, bool allowInitializeArray) :
+        _configuration{configuration.get()},
         _openExistingArray{existingArray},
         _openAllowInitialize{allowInitializeArray}
     {}
@@ -63,8 +63,8 @@ namespace RaidStream {
 //            // TODO: verify()
 //        }
 
-    RaidConfiguration RaidStream::MakeConfiguration(RaidConfiguration::RaidType type, std::vector<RaidFile> files) {
-        return RaidConfiguration(type, files);
+    std::shared_ptr<RaidConfiguration> RaidStream::MakeConfiguration(RaidConfiguration::RaidType type, std::vector<RaidFile> files) {
+        return std::shared_ptr<RaidConfiguration>(new RaidConfiguration(type, files));
     }
 
     bool RaidStream::Degraded() {
@@ -88,7 +88,7 @@ namespace RaidStream {
         // TODO; check for impossible states first
         if (_status == RaidStreamStatus::CLOSED) return false; // can't check consistency if closed
 
-        for (std::vector<RaidFile>::iterator it = _configuration.Files().begin(); it != _configuration.Files().end(); it++) {
+        for (std::vector<RaidFile>::iterator it = _configuration->Files().begin(); it != _configuration->Files().end(); it++) {
             if (!it->Consistent()) return false;
         }
         return true;

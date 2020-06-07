@@ -31,7 +31,7 @@ namespace RaidStream {
             OFFLINE_REBUILDING
         };
 
-        RaidStream(RaidConfiguration configuration, bool existingArray, bool allowInitializeArray = false);
+        RaidStream(std::shared_ptr<RaidConfiguration> configuration, bool existingArray, bool allowInitializeArray = false);
 
 //        void open(std::ios_base::openmode __mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary);
 
@@ -48,7 +48,7 @@ namespace RaidStream {
 
 //        void Close();
 
-        static RaidConfiguration MakeConfiguration(RaidConfiguration::RaidType type, std::vector<RaidFile> files);
+        static std::shared_ptr<RaidConfiguration> MakeConfiguration(RaidConfiguration::RaidType type, std::vector<RaidFile> files);
 
         inline bool Degraded();
 
@@ -82,7 +82,7 @@ namespace RaidStream {
         uintmax_t _currentOffset = 0;
         uintmax_t _normalizedDeviceSize = 0;
         uintmax_t _largestDeviceSize = 0;
-        RaidConfiguration _configuration;
+        std::shared_ptr<RaidConfiguration> _configuration;
 //        std::streambuf _uncommitted;
     };
 }

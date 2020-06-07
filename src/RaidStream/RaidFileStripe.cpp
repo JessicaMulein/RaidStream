@@ -2,7 +2,10 @@
 #include "RaidStream/RaidFileStripe.hpp"
 
 namespace RaidStream {
-    RaidFileStripe::RaidFileStripe(const RaidStripeType type, std::vector<RaidFileBlock> blocks) : _type{type} {
+    RaidFileStripe::RaidFileStripe(std::shared_ptr<RaidFile> raidFile, const RaidStripeType type, std::vector<RaidFileBlock> blocks) :
+        _raidFile{raidFile},
+        _type{type}
+    {
         bool setBlockSize = true;
         for (std::vector<RaidFileBlock>::iterator it = blocks.begin(); it != blocks.end(); ++it) {
             if (setBlockSize) {

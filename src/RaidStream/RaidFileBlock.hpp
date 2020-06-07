@@ -25,6 +25,7 @@ namespace RaidStream {
 
         static const block_size_t BLOCK_SIZE = (4 * UNITS_MB); // Make sure this aligns with your disk!
         RaidFileBlock(uintmax_t nativeOffset);
+        ~RaidFileBlock();
 
         bool InMemory();
 

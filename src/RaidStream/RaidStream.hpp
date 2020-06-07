@@ -32,7 +32,7 @@ namespace RaidStream {
         };
 
         RaidStream(std::shared_ptr<RaidConfiguration> configuration, bool existingArray, bool allowInitializeArray = false);
-
+        ~RaidStream();
 //        void open(std::ios_base::openmode __mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary);
 
 

@@ -10,6 +10,13 @@ namespace RaidStream {
         }
     }
 
+    RaidFileBlock::~RaidFileBlock() {
+        if (InMemory()) {
+            // TODO: if (NeedsSync()) Sync();
+            ReleaseMemory(true); // force release
+        }
+    }
+
     bool RaidFileBlock::InMemory() {
         return (_bytes != nullptr);
     }

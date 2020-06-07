@@ -8,6 +8,10 @@ namespace RaidStream {
         _openAllowInitialize{allowInitializeArray}
     {}
 
+    RaidStream::~RaidStream() {
+//        if (_configuration != nullptr) delete _configuration.get();
+    }
+
 //        void open(std::ios_base::openmode __mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary) {
 //            if (!Closed()) {
 //                throw std::invalid_argument("Unable to open RaidStream when not closed");

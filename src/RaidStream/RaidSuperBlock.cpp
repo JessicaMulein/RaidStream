@@ -1,4 +1,3 @@
-#include "RaidStream/RaidStream.hpp"
 #include "RaidStream/RaidSuperBlock.hpp"
 
 namespace RaidStream {

@@ -1,7 +1,6 @@
 #ifndef RAIDSTREAM_RAIDSUPERBLOCK_HPP
 #define RAIDSTREAM_RAIDSUPERBLOCK_HPP
 
-#include "RaidStream/RaidStream.hpp"
 #include "RaidStream/RaidFileBlock.hpp"
 
 namespace RaidStream {

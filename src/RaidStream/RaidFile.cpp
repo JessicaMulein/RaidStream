@@ -1,5 +1,5 @@
-#include "RaidStream/RaidStream.hpp"
 #include "RaidStream/RaidFile.hpp"
+#include <filesystem>
 
 namespace RaidStream {
     RaidFile::RaidFile(const char* filename, FileType type, uintmax_t sizeOnDisk, std::ios_base::openmode mode) :

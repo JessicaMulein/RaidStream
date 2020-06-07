@@ -1,9 +1,6 @@
 #ifndef RAIDSTREAM_RAIDSTRIPEGROUP_HPP
 #define RAIDSTREAM_RAIDSTRIPEGROUP_HPP
 
-#include "RaidStream/RaidStream.hpp"
-#include "RaidStream/RaidFileStripe.hpp"
-
 namespace RaidStream {
     class RaidStripeGroup {
     public:

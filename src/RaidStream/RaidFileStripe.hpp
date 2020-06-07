@@ -1,8 +1,8 @@
 #ifndef RAIDSTREAM_RAIDFILESTRIPE_HPP
 #define RAIDSTREAM_RAIDFILESTRIPE_HPP
 
+#include <memory>
 #include <sole/sole.hpp>
-#include "RaidStream/RaidStream.hpp"
 #include "RaidStream/RaidFile.hpp"
 #include "RaidStream/RaidFileBlock.hpp"
 

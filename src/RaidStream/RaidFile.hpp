@@ -4,9 +4,8 @@
 #include <string>
 #include <fstream>
 #include <map>
+#include <memory>
 #include <sole/sole.hpp>
-#include "RaidStream/RaidStream.hpp"
-#include "RaidStream/RaidConfiguration.hpp"
 #include "RaidStream/RaidFileBlock.hpp"
 #include "RaidStream/RaidSuperBlock.hpp"
 //#include "RaidStream/RaidStripeGroup.hpp"

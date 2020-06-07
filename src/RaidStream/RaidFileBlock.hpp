@@ -11,8 +11,6 @@
 
 #include <exception>
 #include <sole/sole.hpp>
-#include "RaidStream/RaidStream.hpp"
-#include "RaidStream/RaidFile.hpp"
 #include "RaidStream/crc64/crc64.hpp"
 #include "libschifra/include/schifra_crc.hpp"
 

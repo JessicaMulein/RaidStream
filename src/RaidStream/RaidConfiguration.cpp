@@ -1,5 +1,5 @@
-#include "RaidStream/RaidStream.hpp"
 #include "RaidStream/RaidConfiguration.hpp"
+#include <filesystem>
 
 namespace RaidStream {
     RaidConfiguration::RaidConfiguration(RaidType type, std::vector<RaidFile> files, std::fstream *stdout,

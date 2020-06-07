@@ -1,0 +1,10 @@
+#ifndef RAIDSTREAM_ALGORITHMXOR_HPP
+#define RAIDSTREAM_ALGORITHMXOR_HPP
+
+
+class AlgorithmXor {
+
+};
+
+
+#endif //RAIDSTREAM_ALGORITHMXOR_HPP

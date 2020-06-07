@@ -27,6 +27,16 @@ set(RAIDSTREAM_SOURCES
         src/RaidStream/RaidSuperStripe.cpp
 #        src/RaidStream/RaidStripeGroup.cpp
 #        src/RaidStream/RaidStripeGroup.hpp
+        src/RaidStream/algorithms/AlgorithmMirror.cpp
+        src/RaidStream/algorithms/AlgorithmMirror.hpp
+        src/RaidStream/algorithms/AlgorithmJbod.cpp
+        src/RaidStream/algorithms/AlgorithmJbod.hpp
+        src/RaidStream/algorithms/AlgorithmXor.cpp
+        src/RaidStream/algorithms/AlgorithmXor.hpp
+        src/RaidStream/algorithms/AlgorithmXorReedSolomon.cpp
+        src/RaidStream/algorithms/AlgorithmXorReedSolomon.hpp
+        src/RaidStream/algorithms/AlgorithmExperimentalTripleParity.cpp
+        src/RaidStream/algorithms/AlgorithmExperimentalTripleParity.hpp
         src/RaidStream/test.cpp
 )
 add_library(raidstream-object OBJECT ${RAIDSTREAM_SOURCES})

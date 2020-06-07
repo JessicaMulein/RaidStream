@@ -1,5 +1,5 @@
-#include "RaidStream.hpp"
-#include "RaidFileStripe.hpp"
+#include "RaidStream/RaidStream.hpp"
+#include "RaidStream/RaidFileStripe.hpp"
 
 namespace RaidStream {
     RaidFileStripe::RaidFileStripe(const RaidStripeType type, std::vector<RaidFileBlock> blocks) : _type{type} {

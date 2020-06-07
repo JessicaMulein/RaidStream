@@ -43,6 +43,7 @@ namespace RaidStream {
         if (!keepMemory) {
             ReleaseMemory();
         }
+        return true;
     }
 
     const RaidFileBlock::block_size_t RaidFileBlock::BlockSize() {

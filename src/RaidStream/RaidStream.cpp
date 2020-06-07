@@ -30,8 +30,8 @@ namespace RaidStream {
 
     bool RaidStream::Opening() {
         return (InStatus(std::vector<RaidStreamStatus>({
-             {RaidStreamStatus::OPENING_UNVERIFIED},
-             {RaidStreamStatus::OPENING_UNVERIFIED_VERIFYING}
+             RaidStreamStatus::OPENING_UNVERIFIED,
+             RaidStreamStatus::OPENING_UNVERIFIED_VERIFYING
      })));
     }
 
@@ -69,18 +69,18 @@ namespace RaidStream {
 
     bool RaidStream::Degraded() {
         return InStatus(std::vector<RaidStreamStatus> ({
-           {RaidStreamStatus::DEGRADED},
-           {RaidStreamStatus::DEGRADED_REBUILDING},
-           {RaidStreamStatus::OFFLINE_DEGRADED},
-           {RaidStreamStatus::SYNCING_DEGRADED}
+           RaidStreamStatus::DEGRADED,
+           RaidStreamStatus::DEGRADED_REBUILDING,
+           RaidStreamStatus::OFFLINE_DEGRADED,
+           RaidStreamStatus::SYNCING_DEGRADED
         }));
     }
 
     bool RaidStream::Rebuilding() {
         return InStatus(std::vector<RaidStreamStatus> ({
-            {RaidStreamStatus::DEGRADED_REBUILDING},
-            {RaidStreamStatus::OFFLINE_REBUILDING},
-            {RaidStreamStatus::SYNCING_REBUILDING}
+            RaidStreamStatus::DEGRADED_REBUILDING,
+            RaidStreamStatus::OFFLINE_REBUILDING,
+            RaidStreamStatus::SYNCING_REBUILDING
         }));
     }
 
@@ -100,7 +100,7 @@ namespace RaidStream {
     }
 
     std::ostream &operator<<(std::ostream &os, const RaidStream &raidstream) {
-
+        return os;
     }
 
     bool RaidStream::InStatus(std::vector<RaidStreamStatus> statusList) {

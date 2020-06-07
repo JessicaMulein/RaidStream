@@ -9,6 +9,7 @@
 #include "RaidStream/RaidConfiguration.hpp"
 #include "RaidStream/RaidFileBlock.hpp"
 #include "RaidStream/RaidSuperBlock.hpp"
+//#include "RaidStream/RaidStripeGroup.hpp"
 
 namespace RaidStream {
     class RaidConfiguration;
@@ -16,6 +17,7 @@ namespace RaidStream {
     class RaidFile {
     public:
         typedef std::map<RaidFileBlock::block_pos_t, RaidFileBlock> raid_block_map;
+//        typedef std::map<RaidFileBlock::block_pos_t, RaidStripeGroup> raid_stripegroup_map;
         typedef std::map<RaidFileBlock::block_pos_t, RaidSuperBlock> raid_superblock_map;
 
         enum FileStatus {

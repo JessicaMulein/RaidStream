@@ -25,6 +25,8 @@ set(RAIDSTREAM_SOURCES
         src/RaidStream/RaidSuperBlock.cpp
         src/RaidStream/RaidSuperStripe.hpp
         src/RaidStream/RaidSuperStripe.cpp
+#        src/RaidStream/RaidStripeGroup.cpp
+#        src/RaidStream/RaidStripeGroup.hpp
         src/RaidStream/test.cpp
 )
 add_library(raidstream-object OBJECT ${RAIDSTREAM_SOURCES})

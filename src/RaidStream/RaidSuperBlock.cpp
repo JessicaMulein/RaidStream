@@ -1,5 +1,5 @@
-#include "RaidStream.hpp"
-#include "RaidSuperBlock.hpp"
+#include "RaidStream/RaidStream.hpp"
+#include "RaidStream/RaidSuperBlock.hpp"
 
 namespace RaidStream {
     RaidSuperBlock::RaidSuperBlock(uintmax_t nativeOffset) : RaidFileBlock(nativeOffset) {

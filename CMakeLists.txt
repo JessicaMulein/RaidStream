@@ -5,10 +5,7 @@ project(raidstream
 set(CMAKE_VERBOSE_MAKEFILE True)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-#find_package(schifra REQUIRED)
 set(RAIDSTREAM_SOURCES
-        src/RaidStream/crc32/crc32.cpp
-        src/RaidStream/crc32/crc32.hpp
         src/RaidStream/crc64/crc64.hpp
         src/RaidStream/crc64/crc64.cpp
         src/RaidStream/RaidStream.hpp
@@ -81,10 +78,10 @@ if(NOT EXISTS "${PROJECT_SOURCE_DIR}/src/sole/CMakeLists.txt")
     message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
 endif()
 
-add_subdirectory(src/sole)
-#target_include_directories(raidstream-object SYSTEM PUBLIC ${schifra_INCLUDE_DIR})
-#message(STATUS ${schifra})
+add_subdirectory(src/libschifra)
+target_include_directories(raidstream-object SYSTEM PUBLIC src/libschifra/include)
 
+add_subdirectory(src/sole)
 target_link_libraries(raidstream-object sole)
 target_include_directories(raidstream-object SYSTEM PUBLIC src/sole)
 

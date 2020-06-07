@@ -14,8 +14,7 @@
 #include "RaidStream/RaidStream.hpp"
 #include "RaidStream/RaidFile.hpp"
 #include "RaidStream/crc64/crc64.hpp"
-#include "RaidStream/crc32/crc32.hpp"
-
+#include "libschifra/include/schifra_crc.hpp"
 
 namespace RaidStream {
     class RaidFileBlock {
@@ -52,7 +51,7 @@ namespace RaidStream {
 
         RaidFileBlock::block_data_type *BytesCopy();
 
-        CRC32::crc crc32();
+        schifra::crc32::crc32_t crc32();
 
         CRC64::crc crc64();
 
@@ -74,7 +73,7 @@ namespace RaidStream {
         const sole::uuid _uuid = sole::uuid4();
         bool _uncommittedWrites = false;
         const RaidFileBlock::block_pos_t _blockID;
-        CRC32::crc _lastCRC32 = 0;
+        schifra::crc32::crc32_t _lastCRC32 = 0;
         CRC64::crc _lastCRC64 = 0;
         /** @var _inMem bool Whether the block is loaded into memory or is only on disk **/
         RaidFileBlock::block_data_type *_bytes = nullptr;

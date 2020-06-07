@@ -1,3 +1,6 @@
 [submodule "src/sole"]
 	path = src/sole
 	url = git@github.com:jessica-mulein/sole.git
+[submodule "src/libschifra"]
+	path = src/libschifra
+	url = git@github.com:jessica-mulein/libschifra.git

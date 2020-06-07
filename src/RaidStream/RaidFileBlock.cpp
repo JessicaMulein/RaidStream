@@ -91,9 +91,13 @@ namespace RaidStream {
         return newCopy;
     }
 
-    CRC32::crc RaidFileBlock::crc32() {
-        CRC32::crcInit();
-        return CRC32::crcFast(Bytes(), BLOCK_SIZE);
+    schifra::crc32::crc32_t RaidFileBlock::crc32() {
+
+        schifra::crc32::crc32_t k; // TODO: verify CRC accuracy. This initialization is not documented?
+        schifra::crc32 c2 = schifra::crc32(k);
+        block_data_type *ourBytes = Bytes();
+        c2.update(ourBytes, BLOCK_SIZE);
+        return c2.crc();
     }
 
     CRC64::crc RaidFileBlock::crc64() {
@@ -101,7 +105,7 @@ namespace RaidStream {
     }
 
     bool RaidFileBlock::UpdateCRC32() {
-        CRC32::crc oldCRC = _lastCRC32;
+        schifra::crc32::crc32_t oldCRC = _lastCRC32;
         _lastCRC32 = crc32();
         return (oldCRC == _lastCRC32);
     }

@@ -22,6 +22,11 @@ namespace RaidStream {
                     this->_expectedAvailableDataBytes += fileSize;
                     this->_expectedTotalBytes += fileSize;
                     break;
+                case RaidFile::FileType::PARITY_MIRROR:
+                    this->_filesMirror++;
+                    this->_expectedMirrorBytes += fileSize;
+                    this->_expectedTotalBytes += fileSize;
+                    break;
                 case RaidFile::FileType::PARITY_XOR:
                     this->_filesXor++;
                     this->_expectedXorBytes += fileSize;
@@ -42,6 +47,12 @@ namespace RaidStream {
             }
         }
         _files.swap(files);
+        this->log("Detected data space: " + std::to_string(_expectedAvailableDataBytes));
+        this->log("Detected mirror space: " + std::to_string(_expectedTotalBytes));
+        this->log("Detected XOR space: " + std::to_string(_expectedXorBytes));
+        this->log("Detected Reed Solomon space: " + std::to_string(_expectedReedSolomonBytes));
+        this->log("Detected Experimental space: " + std::to_string(_expectedExperimentalBytes));
+        this->log("Total raw space as stored: " + std::to_string(_expectedTotalBytes));
     }
 
     std::vector<RaidFile> RaidConfiguration::Files() {

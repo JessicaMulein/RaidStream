@@ -43,10 +43,12 @@ namespace RaidStream {
         unsigned long _logCount = 0;
         unsigned long _warningCount = 0;
         unsigned short _filesData = 0;
+        unsigned short _filesMirror = 0;
         unsigned short _filesXor = 0;
         unsigned short _filesReedSolomon = 0;
         unsigned short _filesExperimental = 0;
         uintmax_t _expectedAvailableDataBytes = 0;
+        uintmax_t _expectedMirrorBytes = 0;
         uintmax_t _expectedXorBytes = 0;
         uintmax_t _expectedReedSolomonBytes = 0;
         uintmax_t _expectedExperimentalBytes = 0;

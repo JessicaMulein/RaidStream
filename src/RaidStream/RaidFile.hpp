@@ -71,12 +71,12 @@ namespace RaidStream {
         void FlushBlock(RaidFileBlock::block_pos_t id, bool force = false, bool keepMemory = true);
 
         const sole::uuid UUID();
-
-        void Configuration(std::shared_ptr<RaidConfiguration> configuration);
-
+        
         std::shared_ptr<RaidConfiguration> Configuration();
 
     protected:
+        friend class RaidConfiguration;
+        void _setConfiguration(std::shared_ptr<RaidConfiguration> configuration);
         std::shared_ptr<RaidConfiguration> _configuration = nullptr;
         const sole::uuid _uuid = sole::uuid4();
         const std::string _fileName;
@@ -89,7 +89,6 @@ namespace RaidStream {
         RaidFileBlock::block_pos_t _numBlocksVirtual;
         raid_block_map _loadedBlocks;
         unsigned int _fileMode;
-
     };
 }
 

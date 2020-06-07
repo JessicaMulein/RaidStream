@@ -16,8 +16,8 @@ namespace RaidStream {
             EXPERIMENTAL // 3 raid parity algorithms XOR, RS, XOR+RS(?)
         };
 
-        RaidConfiguration(RaidType type, std::vector<RaidFile> files, std::fstream *stdout = nullptr,
-                          std::fstream *stderr = nullptr);
+        RaidConfiguration(RaidType type, std::vector<RaidFile> files, std::ostream *os = nullptr,
+                          std::ostream *oe = nullptr);
 
         std::vector<RaidFile> Files();
 
@@ -27,18 +27,20 @@ namespace RaidStream {
 
         void warn(std::string warning);
 
-        void setStdOut(std::fstream *fs);
+        void setStdOut(std::ostream *fs);
 
-        void setStdErr(std::fstream *fs);
+        void setStdErr(std::ostream *fs);
 
         sole::uuid UUID();
+
+        RaidType Type();
 
     protected:
         const sole::uuid _uuid = sole::uuid4();
         RaidType _type;
         std::vector<RaidFile> _files;
-        std::fstream *_stdout = nullptr;
-        std::fstream *_stderr = nullptr;
+        std::ostream *_os = nullptr;
+        std::ostream *_oe = nullptr;
         unsigned long _logCount = 0;
         unsigned long _warningCount = 0;
         unsigned short _filesData = 0;

@@ -2,10 +2,13 @@
 #include <filesystem>
 
 namespace RaidStream {
-    RaidConfiguration::RaidConfiguration(RaidType type, std::vector<RaidFile> files, std::fstream *stdout,
-                      std::fstream *stderr) : _type{type} {
+    RaidConfiguration::RaidConfiguration(RaidType type, std::vector<RaidFile> files, std::ostream *os,
+                                         std::ostream *oe) : _type{type}, _os{os}, _oe{oe} {
         RaidConfiguration *This = this;
         for (std::vector<RaidFile>::iterator it = files.begin(); it != files.end(); ++it) {
+            // set the configuration on this RaidFile
+            it->_setConfiguration(std::shared_ptr<RaidConfiguration>(This));
+
             std::error_code ec;
             uintmax_t fileSize = std::filesystem::file_size(it->FileName(), ec);
             if (ec) {
@@ -65,25 +68,29 @@ namespace RaidStream {
 
     void RaidConfiguration::log(std::string data) {
         _logCount++;
-        if ((_stdout == nullptr) || (_stdout == NULL)) return;
-        *_stdout << data << std::endl;
+        if ((_os == nullptr) || (_os == NULL)) return;
+        *_os << data << std::endl;
     }
 
     void RaidConfiguration::warn(std::string warning) {
         _warningCount++;
-        if ((_stderr == nullptr) || (_stderr == NULL)) return;
-        *_stderr << warning << std::endl;
+        if ((_oe == nullptr) || (_oe == NULL)) return;
+        *_oe << warning << std::endl;
     }
 
-    void RaidConfiguration::setStdOut(std::fstream *fs) {
-        _stdout = fs;
+    void RaidConfiguration::setStdOut(std::ostream *fs) {
+        _os = fs;
     }
 
-    void RaidConfiguration::setStdErr(std::fstream *fs) {
-        _stderr = fs;
+    void RaidConfiguration::setStdErr(std::ostream *fs) {
+        _oe = fs;
     }
 
     sole::uuid RaidConfiguration::UUID() {
         return _uuid;
+    }
+
+    RaidConfiguration::RaidType RaidConfiguration::Type() {
+        return _type;
     }
 }

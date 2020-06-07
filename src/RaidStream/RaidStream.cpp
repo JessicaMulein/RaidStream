@@ -67,8 +67,13 @@ namespace RaidStream {
 //            // TODO: verify()
 //        }
 
-    std::shared_ptr<RaidConfiguration> RaidStream::MakeConfiguration(RaidConfiguration::RaidType type, std::vector<RaidFile> files) {
-        return std::shared_ptr<RaidConfiguration>(new RaidConfiguration(type, files));
+    std::shared_ptr<RaidConfiguration> RaidStream::MakeConfiguration(
+            RaidConfiguration::RaidType type,
+            std::vector<RaidFile> files,
+            std::ostream *os,
+            std::ostream *oe
+    ) {
+        return std::shared_ptr<RaidConfiguration>(new RaidConfiguration(type, files, os, oe));
     }
 
     bool RaidStream::Degraded() {

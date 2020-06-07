@@ -19,15 +19,23 @@ namespace RaidStream {
             switch (it->Type()) {
                 case RaidFile::FileType::DATA:
                     this->_filesData++;
+                    this->_expectedAvailableDataBytes += fileSize;
+                    this->_expectedTotalBytes += fileSize;
                     break;
                 case RaidFile::FileType::PARITY_XOR:
                     this->_filesXor++;
+                    this->_expectedXorBytes += fileSize;
+                    this->_expectedTotalBytes += fileSize;
                     break;
                 case RaidFile::FileType::PARITY_RS:
                     this->_filesReedSolomon++;
+                    this->_expectedReedSolomonBytes += fileSize;
+                    this->_expectedTotalBytes += fileSize;
                     break;
                 case RaidFile::FileType::PARITY_EXPERIMENTAL:
                     this->_filesExperimental++;
+                    this->_expectedExperimentalBytes += fileSize;
+                    this->_expectedTotalBytes += fileSize;
                     break;
                 default:
                     throw std::invalid_argument("Unexpected RaidFile::FileType");

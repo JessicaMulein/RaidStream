@@ -2,15 +2,14 @@
 #include <filesystem>
 
 namespace RaidStream {
-    RaidFile::RaidFile(const char* filename, FileType type, uintmax_t sizeOnDisk, std::ios_base::openmode mode) :
+    RaidFile::RaidFile(const char* filename, FileType type, uintmax_t sizeOnDisk,
+            std::ios_base::openmode mode) :
             _fileName{std::string(filename)},
             _fileType{type},
             _actualSize{sizeOnDisk},
             _fileMode{mode},
             _fileStream{new std::ofstream(filename, mode)}
-        {
-            _configuration = nullptr;
-        }
+        {}
 
     const RaidFile::FileType RaidFile::Type() const {
         return _fileType;
@@ -89,7 +88,7 @@ namespace RaidStream {
         return _uuid;
     }
 
-    void RaidFile::Configuration(std::shared_ptr<RaidConfiguration> configuration) {
+    void RaidFile::_setConfiguration(std::shared_ptr<RaidConfiguration> configuration) {
         if (_configuration != nullptr) throw std::invalid_argument("Configuration already set");
         _configuration = configuration;
     }

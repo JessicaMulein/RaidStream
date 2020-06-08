@@ -46,7 +46,9 @@ namespace RaidStream {
 
 //        void Close();
 
-        static std::shared_ptr<RaidConfiguration> MakeConfiguration(RaidConfiguration::RaidType type, std::vector<RaidFile> files);
+        static std::shared_ptr<RaidConfiguration> MakeConfiguration(RaidConfiguration::RaidType type, std::vector<RaidFile> files,
+                                                                    std::ostream *os = nullptr,
+                                                                    std::ostream *oe = nullptr);
 
         inline bool Degraded();
 

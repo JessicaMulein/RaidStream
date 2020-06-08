@@ -27,7 +27,7 @@ namespace RaidStream {
                 this->_bytesActualTotal += actualSizeOnDisk;
             }
             if (it->Size() != actualSizeOnDisk) {
-                this->error("Size on disk does not match configuration: " + BytesToSize(actualSizeOnDisk).str() + " actual vs " + BytesToSize(it->Size()).str() + " expected");
+                this->error("Size on disk does not match configuration: " + BytesToSize(actualSizeOnDisk) + " actual vs " + BytesToSize(it->Size()) + " expected");
             }
 
             switch (it->Type()) {
@@ -61,13 +61,13 @@ namespace RaidStream {
             }
         }
         _files.swap(files);
-        this->log("  -- Detected data space: " + BytesToSize(_bytesData).str());
-        this->log("  -- Detected mirror space: " + BytesToSize(_bytesTotal).str());
-        this->log("  -- Detected XOR space: " + BytesToSize(_bytesXor).str());
-        this->log("  -- Detected Reed Solomon space: " + BytesToSize(_bytesReedSolomon).str());
-        this->log("  -- Detected Experimental space: " + BytesToSize(_bytesExperimental).str());
-        this->log("  -- Full array size on disk: " + BytesToSize(_bytesTotal).str());
-        this->log("  -- Actual filesize detected on disk: " + BytesToSize(_bytesActualTotal).str());
+        this->log("  -- Detected data space: " + BytesToSize(_bytesData));
+        this->log("  -- Detected mirror space: " + BytesToSize(_bytesTotal));
+        this->log("  -- Detected XOR space: " + BytesToSize(_bytesXor));
+        this->log("  -- Detected Reed Solomon space: " + BytesToSize(_bytesReedSolomon));
+        this->log("  -- Detected Experimental space: " + BytesToSize(_bytesExperimental));
+        this->log("  -- Full array size on disk: " + BytesToSize(_bytesTotal));
+        this->log("  -- Actual filesize detected on disk: " + BytesToSize(_bytesActualTotal));
 
         this->log("Configuration Loaded");
     }
@@ -143,7 +143,7 @@ namespace RaidStream {
         return _errorCount;
     }
 
-    std::ostringstream RaidConfiguration::BytesToSize(uintmax_t bytes) {
+    std::string RaidConfiguration::BytesToSize(uintmax_t bytes) {
         std::ostringstream s;
         if(bytes >= UNITS_TB )
             s << std::setfill('0') << std::setw(2) << ((float)bytes / UNITS_TB) << " TB";
@@ -159,6 +159,6 @@ namespace RaidStream {
             // ?? why was this separate?
             s << bytes << " Bytes";
 
-        return s;
+        return s.str();
     }
 }

@@ -45,7 +45,7 @@ namespace RaidStream {
 
         const unsigned long ErrorCount();
 
-        static std::ostringstream BytesToSize(uintmax_t bytes);
+        static std::string BytesToSize(uintmax_t bytes);
 
     protected:
         const sole::uuid _uuid = sole::uuid4();

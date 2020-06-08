@@ -1,4 +1,5 @@
 #include "RaidStream/RaidConfiguration.hpp"
+#include "RaidStream/RaidStream.hpp"
 #include <filesystem>
 
 namespace RaidStream {
@@ -26,7 +27,7 @@ namespace RaidStream {
                 this->_bytesActualTotal += actualSizeOnDisk;
             }
             if (it->Size() != actualSizeOnDisk) {
-                this->error("Size on disk does not match configuration: " + std::to_string(actualSizeOnDisk) + " actual vs " + std::to_string(it->Size()) + " expected");
+                this->error("Size on disk does not match configuration: " + BytesToSize(actualSizeOnDisk) + " actual vs " + BytesToSize(it->Size()) + " expected");
             }
 
             switch (it->Type()) {
@@ -60,12 +61,12 @@ namespace RaidStream {
             }
         }
         _files.swap(files);
-        this->log("  -- Detected data space: " + std::to_string(_bytesData));
-        this->log("  -- Detected mirror space: " + std::to_string(_bytesTotal));
-        this->log("  -- Detected XOR space: " + std::to_string(_bytesXor));
-        this->log("  -- Detected Reed Solomon space: " + std::to_string(_bytesReedSolomon));
-        this->log("  -- Detected Experimental space: " + std::to_string(_bytesExperimental));
-        this->log("  -- Total raw space as stored: " + std::to_string(_bytesTotal));
+        this->log("  -- Detected data space: " + BytesToSize(_bytesData));
+        this->log("  -- Detected mirror space: " + BytesToSize(_bytesTotal));
+        this->log("  -- Detected XOR space: " + BytesToSize(_bytesXor));
+        this->log("  -- Detected Reed Solomon space: " + BytesToSize(_bytesReedSolomon));
+        this->log("  -- Detected Experimental space: " + BytesToSize(_bytesExperimental));
+        this->log("  -- Total raw space as stored: " + BytesToSize(_bytesTotal));
         this->log("Configuration Loaded");
     }
 
@@ -138,5 +139,24 @@ namespace RaidStream {
 
     const unsigned long RaidConfiguration::ErrorCount() {
         return _errorCount;
+    }
+
+    static std::string BytesToSize( uintmax_t bytes ) {
+        char returnSize[256];
+
+        if(bytes >= UNITS_TB )
+            sprintf(returnSize, "%.2f TB", (float)bytes / UNITS_TB);
+        else if(bytes >= UNITS_GB && bytes < UNITS_TB )
+            sprintf(returnSize, "%.2f GB", (float)bytes / UNITS_GB);
+        else if(bytes >= UNITS_MB && bytes < UNITS_GB )
+            sprintf(returnSize, "%.2f MB", (float)bytes / UNITS_MB);
+        else if(bytes >= UNITS_KB && bytes < UNITS_MB )
+            sprintf(returnSize, "%.2f KB", (float)bytes / UNITS_KB);
+        else if (bytes < UNITS_KB)
+            sprintf(returnSize, "%.2f Bytes", bytes);
+        else
+            sprintf(returnSize, "%.2f Bytes", bytes);
+
+        return std::string(returnSize);
     }
 }

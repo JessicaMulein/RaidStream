@@ -1,4 +1,5 @@
 #include "RaidStream/RaidFile.hpp"
+#include "RaidStream/RaidConfiguration.hpp"
 #include <filesystem>
 
 namespace RaidStream {
@@ -8,7 +9,7 @@ namespace RaidStream {
             _type{type},
             _actualSize{sizeOnDisk},
             _fileMode{mode},
-            _fileStream{new std::ofstream(filename, mode)}
+            _fileStream{nullptr}
         {}
 
     const RaidFile::FileType RaidFile::Type() const {
@@ -85,7 +86,7 @@ namespace RaidStream {
         return _fileMode;
     }
 
-    void RaidFile::Mode(std::ios_base::openmode mode) {
+    void RaidFile::mode(std::ios_base::openmode mode) {
         _fileMode = mode;
     }
 
@@ -104,7 +105,7 @@ namespace RaidStream {
         return _uuid;
     }
 
-    void RaidFile::_setConfiguration(RaidConfiguration* configuration) {
+    void RaidFile::setConfiguration(RaidConfiguration* configuration) {
         if (_configuration != nullptr) throw std::invalid_argument("Configuration already set");
         _configuration = configuration;
     }
@@ -112,4 +113,20 @@ namespace RaidStream {
     //std::shared_ptr<RaidConfiguration> RaidFile::Configuration() {
     //    return _configuration;
     //}
+
+    bool RaidFile::OpenOnly(unsigned int mode) {
+        if (_fileStream != nullptr) {
+            throw std::invalid_argument("File already open");
+        }
+        _fileMode = mode;
+        _fileStream = new std::ofstream(this->FileName(), mode);
+        if (!_fileStream->is_open()) {
+            this->_configuration->warn("Could not open " + this->FileName());
+        }
+    }
+
+    bool RaidFile::Create() {
+
+    }
+
 }

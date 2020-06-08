@@ -12,21 +12,20 @@ namespace RaidStream {
 //        if (_configuration != nullptr) delete _configuration.get();
     }
 
-//        void open(std::ios_base::openmode __mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary) {
-//            if (!Closed()) {
-//                throw std::invalid_argument("Unable to open RaidStream when not closed");
-//            }
-//            // open all the handles
-//            _status = RaidStreamStatus::OPENING_UNVERIFIED;
-//            for (std::vector<RaidFile>::iterator it = _configuration.Files().begin(); it != _configuration.Files().end(); it++) {
-//                it->Mode(__mode);
-//                _handles[&(*it)] = std::fstream(it->FileName(), __mode);
-//            }
-//            // verify that all the files are associated and consistent
-//            _status = RaidStreamStatus::OPENING_UNVERIFIED_VERIFYING;
-//            // TODO: verify()
-//        }
-
+    bool RaidStream::Open(std::ios_base::openmode mode) {
+        if (_status != OPENING_UNVERIFIED) {
+            throw std::invalid_argument("Unable to open RaidStream when not closed");
+        }
+        // open all the handles
+        _status = RaidStreamStatus::OPENING_UNVERIFIED;
+        for (std::vector<RaidFile>::iterator it = _configuration->Files().begin(); it != _configuration->Files().end(); it++) {
+            it->OpenOnly(mode);
+        }
+        // verify that all the files are associated and consistent
+        _status = RaidStreamStatus::OPENING_UNVERIFIED_VERIFYING;
+        // TODO: verify()
+        return true;
+    }
 
     bool RaidStream::Online() {
         return (!Opening() && !Closing() && !Closed() && !Error());

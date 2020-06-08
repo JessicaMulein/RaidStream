@@ -10,8 +10,8 @@ namespace RaidStream {
 
         for (std::vector<RaidFile>::iterator it = files.begin(); it != files.end(); ++it) {
             // set the configuration on this RaidFile
-            it->_setConfiguration(this);
-            this->log("-- Opening " + it->FileName() + " of type " + it->TypeString());
+            it->setConfiguration(this);
+            this->log("-- Found described volume: " + it->FileName() + " of type " + it->TypeString());
 
             std::error_code ec;
             uintmax_t actualSizeOnDisk = it->SizeOnDisk(ec);
@@ -66,7 +66,7 @@ namespace RaidStream {
             }
         }
         _files.swap(files);
-        this->log("-- Done opening files. Calculating totals.");
+        this->log("-- Done reading configuration. Calculating totals.");
         this->log("  -- Configured data space used: " + BytesToSize(_bytesData));
         this->log("  -- Configured mirror space used: " + BytesToSize(_bytesMirror));
         this->log("  -- Configured XOR space used: " + BytesToSize(_bytesXor));

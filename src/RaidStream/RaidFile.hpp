@@ -70,7 +70,6 @@ namespace RaidStream {
 
         std::ios_base::openmode Mode();
 
-        void Mode(std::ios_base::openmode mode);
 
         void FlushBlock(RaidFileBlock::block_pos_t id, bool force = false, bool keepMemory = true);
 
@@ -80,7 +79,11 @@ namespace RaidStream {
 
     protected:
         friend class RaidConfiguration;
-        void _setConfiguration(RaidConfiguration* configuration);
+        friend class RaidStream;
+        void mode(std::ios_base::openmode mode);
+        void setConfiguration(RaidConfiguration* configuration);
+        bool OpenOnly(unsigned int mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::ate);
+        bool Create();
         RaidConfiguration* _configuration = nullptr;
         const sole::uuid _uuid = sole::uuid4();
         const std::string _fileName;

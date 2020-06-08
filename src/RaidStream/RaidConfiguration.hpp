@@ -65,6 +65,7 @@ namespace RaidStream {
         uintmax_t _bytesReedSolomon = 0;
         uintmax_t _bytesExperimental = 0;
         uintmax_t _bytesTotal = 0;
+        uintmax_t _bytesActualTotal = 0;
     };
 }
 

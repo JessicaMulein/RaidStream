@@ -13,41 +13,47 @@ namespace RaidStream {
             this->log("-- Opening " + it->FileName() + " of type " + it->TypeString());
 
             std::error_code ec;
-            uintmax_t fileSize = std::filesystem::file_size(it->FileName(), ec);
+            uintmax_t actualSizeOnDisk = std::filesystem::file_size(it->FileName(), ec);
             if (ec) {
                 this->error(it->FileName() + ": " + ec.message());
-                this->error("Skipping this volume");
-                continue; // TODO: Decide severity of this error
-            } else if (fileSize > 0) {
+                actualSizeOnDisk = 0;
+            } else if (actualSizeOnDisk > 0) {
                 // if it's empty, its ready to initialize
                 // if it's not, this file has data!
-                this->warn(it->FileName() + ": File has existing data");
+                if (it->Status() == RaidFile::NEW) {
+                    this->warn(it->FileName() + ": File has existing data");
+                }
+                this->_bytesActualTotal += actualSizeOnDisk;
             }
+            if (it->Size() != actualSizeOnDisk) {
+                this->error("Size on disk does not match configuration: " + std::to_string(actualSizeOnDisk) + " actual vs " + std::to_string(it->Size()) + " expected");
+            }
+
             switch (it->Type()) {
                 case RaidFile::FileType::DATA:
                     this->_filesData++;
-                    this->_bytesData += fileSize;
-                    this->_bytesTotal += fileSize;
+                    this->_bytesData += it->Size();
+                    this->_bytesTotal += it->Size();
                     break;
                 case RaidFile::FileType::PARITY_MIRROR:
                     this->_filesMirror++;
-                    this->_bytesMirror += fileSize;
-                    this->_bytesTotal += fileSize;
+                    this->_bytesMirror += it->Size();
+                    this->_bytesTotal += it->Size();
                     break;
                 case RaidFile::FileType::PARITY_XOR:
                     this->_filesXor++;
-                    this->_bytesXor += fileSize;
-                    this->_bytesTotal += fileSize;
+                    this->_bytesXor += it->Size();
+                    this->_bytesTotal += it->Size();
                     break;
                 case RaidFile::FileType::PARITY_RS:
                     this->_filesReedSolomon++;
-                    this->_bytesReedSolomon += fileSize;
-                    this->_bytesTotal += fileSize;
+                    this->_bytesReedSolomon += it->Size();
+                    this->_bytesTotal += it->Size();
                     break;
                 case RaidFile::FileType::PARITY_EXPERIMENTAL:
                     this->_filesExperimental++;
-                    this->_bytesExperimental += fileSize;
-                    this->_bytesTotal += fileSize;
+                    this->_bytesExperimental += it->Size();
+                    this->_bytesTotal += it->Size();
                     break;
                 default:
                     throw std::invalid_argument("Unexpected RaidFile::FileType");

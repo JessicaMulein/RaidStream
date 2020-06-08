@@ -14,7 +14,7 @@ namespace RaidStream {
             this->log("-- Opening " + it->FileName() + " of type " + it->TypeString());
 
             std::error_code ec;
-            uintmax_t actualSizeOnDisk = std::filesystem::file_size(it->FileName(), ec);
+            uintmax_t actualSizeOnDisk = it->SizeOnDisk(ec);
             if (ec) {
                 this->error(it->FileName() + ": " + ec.message());
                 actualSizeOnDisk = 0;

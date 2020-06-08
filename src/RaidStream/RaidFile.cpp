@@ -88,12 +88,12 @@ namespace RaidStream {
         return _uuid;
     }
 
-    void RaidFile::_setConfiguration(std::shared_ptr<RaidConfiguration> configuration) {
+    void RaidFile::_setConfiguration(RaidConfiguration* configuration) {
         if (_configuration != nullptr) throw std::invalid_argument("Configuration already set");
         _configuration = configuration;
     }
 
-    std::shared_ptr<RaidConfiguration> RaidFile::Configuration() {
-        return _configuration;
-    }
+    //std::shared_ptr<RaidConfiguration> RaidFile::Configuration() {
+    //    return _configuration;
+    //}
 }

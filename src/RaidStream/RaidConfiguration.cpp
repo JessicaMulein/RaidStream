@@ -4,20 +4,19 @@
 namespace RaidStream {
     RaidConfiguration::RaidConfiguration(RaidType type, std::vector<RaidFile> files, std::ostream *os,
                                          std::ostream *oe) : _type{type}, _os{os}, _oe{oe} {
-        RaidConfiguration *This = this;
         for (std::vector<RaidFile>::iterator it = files.begin(); it != files.end(); ++it) {
             // set the configuration on this RaidFile
-            it->_setConfiguration(std::shared_ptr<RaidConfiguration>(This));
+            it->_setConfiguration(this);
 
             std::error_code ec;
             uintmax_t fileSize = std::filesystem::file_size(it->FileName(), ec);
             if (ec) {
-                This->warn("ERROR: " + it->FileName() + ": " + ec.message());
+                this->warn("ERROR: " + it->FileName() + ": " + ec.message());
             }
             if (fileSize > 0) {
                 // if it's empty, its ready to initialize
                 // if it's not, this file has data!
-                This->warn("WARNING: " + it->FileName() + ": File has existing data");
+                this->warn("WARNING: " + it->FileName() + ": File has existing data");
             }
             switch (it->Type()) {
                 case RaidFile::FileType::DATA:

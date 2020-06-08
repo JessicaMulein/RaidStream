@@ -72,12 +72,12 @@ namespace RaidStream {
 
         const sole::uuid UUID();
         
-        std::shared_ptr<RaidConfiguration> Configuration();
+        //std::shared_ptr<RaidConfiguration> Configuration();
 
     protected:
         friend class RaidConfiguration;
-        void _setConfiguration(std::shared_ptr<RaidConfiguration> configuration);
-        std::shared_ptr<RaidConfiguration> _configuration = nullptr;
+        void _setConfiguration(RaidConfiguration* configuration);
+        RaidConfiguration* _configuration = nullptr;
         const sole::uuid _uuid = sole::uuid4();
         const std::string _fileName;
         const FileType _fileType;

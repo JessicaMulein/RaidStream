@@ -27,7 +27,7 @@ namespace RaidStream {
                 this->_bytesActualTotal += actualSizeOnDisk;
             }
             if (it->Size() != actualSizeOnDisk) {
-                if (it->Type() == RaidFile::NEW) {
+                if (it->Status() == RaidFile::NEW) {
                     this->log("-- File on disk is empty, but expected as this is marked NEW");
                     this->warn("Array file will be initialized");
                 } else {

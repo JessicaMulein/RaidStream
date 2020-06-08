@@ -55,6 +55,8 @@ namespace RaidStream {
         uintmax_t Size();
 
         void Size(uintmax_t size);
+        
+        uintmax_t SizeOnDisk(std::error_code &ec);
 
         uint64_t VirtualSize();
 

@@ -27,7 +27,7 @@ namespace RaidStream {
                 this->_bytesActualTotal += actualSizeOnDisk;
             }
             if (it->Size() != actualSizeOnDisk) {
-                this->error("Size on disk does not match configuration: " + BytesToSize(actualSizeOnDisk) + " actual vs " + BytesToSize(it->Size()) + " expected");
+                this->error("Size on disk does not match configuration: " + BytesToSize(actualSizeOnDisk).str() + " actual vs " + BytesToSize(it->Size()).str() + " expected");
             }
 
             switch (it->Type()) {
@@ -61,12 +61,12 @@ namespace RaidStream {
             }
         }
         _files.swap(files);
-        this->log("  -- Detected data space: " + BytesToSize(_bytesData));
-        this->log("  -- Detected mirror space: " + BytesToSize(_bytesTotal));
-        this->log("  -- Detected XOR space: " + BytesToSize(_bytesXor));
-        this->log("  -- Detected Reed Solomon space: " + BytesToSize(_bytesReedSolomon));
-        this->log("  -- Detected Experimental space: " + BytesToSize(_bytesExperimental));
-        this->log("  -- Total raw space as stored: " + BytesToSize(_bytesTotal));
+        this->log("  -- Detected data space: " + BytesToSize(_bytesData).str());
+        this->log("  -- Detected mirror space: " + BytesToSize(_bytesTotal).str());
+        this->log("  -- Detected XOR space: " + BytesToSize(_bytesXor).str());
+        this->log("  -- Detected Reed Solomon space: " + BytesToSize(_bytesReedSolomon).str());
+        this->log("  -- Detected Experimental space: " + BytesToSize(_bytesExperimental).str());
+        this->log("  -- Total raw space as stored: " + BytesToSize(_bytesTotal).str());
         this->log("Configuration Loaded");
     }
 
@@ -141,22 +141,22 @@ namespace RaidStream {
         return _errorCount;
     }
 
-    std::string RaidConfiguration::BytesToSize(uintmax_t bytes) {
-        char returnSize[256];
-
+    std::ostringstream RaidConfiguration::BytesToSize(uintmax_t bytes) {
+        std::ostringstream s;
         if(bytes >= UNITS_TB )
-            sprintf(returnSize, "%.2f TB", (float)bytes / UNITS_TB);
+            s << std::setfill('0') << std::setw(2) << ((float)bytes / UNITS_TB) << " TB";
         else if(bytes >= UNITS_GB && bytes < UNITS_TB )
-            sprintf(returnSize, "%.2f GB", (float)bytes / UNITS_GB);
+            s << std::setfill('0') << std::setw(2) << ((float)bytes / UNITS_GB) << " GB";
         else if(bytes >= UNITS_MB && bytes < UNITS_GB )
-            sprintf(returnSize, "%.2f MB", (float)bytes / UNITS_MB);
+            s << std::setfill('0') << std::setw(2) << ((float)bytes / UNITS_MB) << " MB";
         else if(bytes >= UNITS_KB && bytes < UNITS_MB )
-            sprintf(returnSize, "%.2f KB", (float)bytes / UNITS_KB);
+            s << std::setfill('0') << std::setw(2) << ((float)bytes / UNITS_KB) << " KB";
         else if (bytes < UNITS_KB)
-            sprintf(returnSize, "%.2f Bytes", bytes);
+            s << bytes << " Bytes";
         else
-            sprintf(returnSize, "%.2f Bytes", bytes);
+            // ?? why was this separate?
+            s << bytes << " Bytes";
 
-        return std::string(returnSize);
+        return s;
     }
 }

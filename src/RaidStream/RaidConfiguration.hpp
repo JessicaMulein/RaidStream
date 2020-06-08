@@ -39,6 +39,12 @@ namespace RaidStream {
 
         std::string TypeString();
 
+        const unsigned long LogCount();
+
+        const unsigned long WarningCount();
+
+        const unsigned long ErrorCount();
+
     protected:
         const sole::uuid _uuid = sole::uuid4();
         RaidType _type;

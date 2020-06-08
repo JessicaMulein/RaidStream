@@ -121,4 +121,16 @@ namespace RaidStream {
                 return std::string();
         }
     }
+
+    const unsigned long RaidConfiguration::LogCount() {
+        return _logCount;
+    }
+
+    const unsigned long RaidConfiguration::WarningCount() {
+        return _warningCount;
+    }
+
+    const unsigned long RaidConfiguration::ErrorCount() {
+        return _errorCount;
+    }
 }

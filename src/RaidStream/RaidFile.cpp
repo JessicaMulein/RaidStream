@@ -131,7 +131,9 @@ namespace RaidStream {
         if (_fileStream != nullptr) {
             return false;
         }
-        if (!SufficientSpaceForCreate()) {
+        std::error_code ec;
+        if (!SufficientSpaceForCreate(ec)) {
+            this->_configuration->warn(ec.message());
             this->_configuration->error("Insufficient disk space for volume");
             return false;
         }
@@ -146,13 +148,13 @@ namespace RaidStream {
         return true;
     }
 
-    uintmax_t RaidFile::DiskSpaceAvailable() {
-        std::filesystem::space_info spaceInfo = std::filesystem::space(this->_fileName);
+    uintmax_t RaidFile::DiskSpaceAvailable(std::error_code &ec) {
+        std::filesystem::space_info spaceInfo = std::filesystem::space(this->_fileName, ec);
         return spaceInfo.available;
     }
 
-    inline bool RaidFile::SufficientSpaceForCreate(uintmax_t withClearance) {
-        return (_actualSize <= DiskSpaceAvailable());
+    inline bool RaidFile::SufficientSpaceForCreate(std::error_code &ec, uintmax_t withClearance) {
+        return (_actualSize <= DiskSpaceAvailable(ec));
     }
 
 }

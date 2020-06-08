@@ -77,9 +77,9 @@ namespace RaidStream {
         
         //std::shared_ptr<RaidConfiguration> Configuration();
 
-        uintmax_t DiskSpaceAvailable();
+        uintmax_t DiskSpaceAvailable(std::error_code &ec);
 
-        inline bool SufficientSpaceForCreate(uintmax_t withClearance = 0);
+        inline bool SufficientSpaceForCreate(std::error_code &ec, uintmax_t withClearance = 0);
 
     protected:
         friend class RaidConfiguration;

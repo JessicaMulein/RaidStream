@@ -21,7 +21,7 @@ namespace RaidStream {
         typedef uint16_t block_pos_t;
         typedef unsigned char block_data_type;
 
-        static const block_size_t BLOCK_SIZE = (4 * UNITS_MB); // Make sure this aligns with your disk!
+        static const block_size_t BLOCK_SIZE = (4 * UNITS_KB); // Make sure this aligns with your disk!
         RaidFileBlock(uintmax_t nativeOffset);
         ~RaidFileBlock();
 

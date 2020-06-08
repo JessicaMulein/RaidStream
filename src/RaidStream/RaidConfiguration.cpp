@@ -68,7 +68,7 @@ namespace RaidStream {
         _files.swap(files);
         this->log("-- Done opening files. Calculating totals.");
         this->log("  -- Configured data space used: " + BytesToSize(_bytesData));
-        this->log("  -- Configured mirror space used: " + BytesToSize(_bytesTotal));
+        this->log("  -- Configured mirror space used: " + BytesToSize(_bytesMirror));
         this->log("  -- Configured XOR space used: " + BytesToSize(_bytesXor));
         this->log("  -- Configured Reed Solomon space used: " + BytesToSize(_bytesReedSolomon));
         this->log("  -- Configured Experimental space used: " + BytesToSize(_bytesExperimental));

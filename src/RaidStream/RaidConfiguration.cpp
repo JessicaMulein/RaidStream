@@ -15,13 +15,13 @@ namespace RaidStream {
             std::error_code ec;
             uintmax_t fileSize = std::filesystem::file_size(it->FileName(), ec);
             if (ec) {
-                this->warn("ERROR: " + it->FileName() + ": " + ec.message());
-                this->warn("Skipping this volume");
+                this->error(it->FileName() + ": " + ec.message());
+                this->error("Skipping this volume");
                 continue; // TODO: Decide severity of this error
             } else if (fileSize > 0) {
                 // if it's empty, its ready to initialize
                 // if it's not, this file has data!
-                this->warn("WARNING: " + it->FileName() + ": File has existing data");
+                this->warn(it->FileName() + ": File has existing data");
             }
             switch (it->Type()) {
                 case RaidFile::FileType::DATA:
@@ -80,7 +80,13 @@ namespace RaidStream {
     void RaidConfiguration::warn(std::string warning) {
         _warningCount++;
         if ((_oe == nullptr) || (_oe == NULL)) return;
-        *_oe << warning << std::endl;
+        *_oe << "WARNING: " << warning << std::endl;
+    }
+
+    void RaidConfiguration::error(std::string error) {
+        _errorCount++;
+        if ((_oe == nullptr) || (_oe == NULL)) return;
+        *_oe << "ERROR: " << error << std::endl;
     }
 
     void RaidConfiguration::setStdOut(std::ostream *fs) {

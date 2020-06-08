@@ -27,6 +27,8 @@ namespace RaidStream {
 
         void warn(std::string warning);
 
+        void error(std::string error);
+
         void setStdOut(std::ostream *fs);
 
         void setStdErr(std::ostream *fs);
@@ -45,6 +47,7 @@ namespace RaidStream {
         std::ostream *_oe = nullptr;
         unsigned long _logCount = 0;
         unsigned long _warningCount = 0;
+        unsigned long _errorCount = 0;
         unsigned short _filesData = 0;
         unsigned short _filesMirror = 0;
         unsigned short _filesXor = 0;

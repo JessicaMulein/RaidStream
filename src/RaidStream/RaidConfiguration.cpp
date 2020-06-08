@@ -79,7 +79,7 @@ namespace RaidStream {
         this->log("Configuration Loaded");
     }
 
-    std::vector<RaidFile> RaidConfiguration::Files() {
+    std::vector<RaidFile>& RaidConfiguration::Files() {
         return _files;
     }
 

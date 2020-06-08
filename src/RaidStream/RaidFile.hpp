@@ -43,6 +43,8 @@ namespace RaidStream {
                         uintmax_t sizeOnDisk = 0,
                         std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::ate | std::ios_base::binary
         );
+        RaidFile(const RaidFile&) = delete;
+        RaidFile(RaidFile&&) = default;
 
         const FileType Type() const;
 

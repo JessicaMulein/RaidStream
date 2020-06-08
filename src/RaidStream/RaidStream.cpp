@@ -72,7 +72,7 @@ namespace RaidStream {
             std::ostream *os,
             std::ostream *oe
     ) {
-        return std::shared_ptr<RaidConfiguration>(new RaidConfiguration(type, files, os, oe));
+        return std::shared_ptr<RaidConfiguration>(new RaidConfiguration(type, std::move(files), os, oe));
     }
 
     bool RaidStream::Degraded() {

@@ -19,7 +19,7 @@ namespace RaidStream {
         RaidConfiguration(RaidType type, std::vector<RaidFile> files, std::ostream *os = nullptr,
                           std::ostream *oe = nullptr);
 
-        std::vector<RaidFile> Files();
+        std::vector<RaidFile>& Files();
 
         std::pair<unsigned int, unsigned int> logStats();
 

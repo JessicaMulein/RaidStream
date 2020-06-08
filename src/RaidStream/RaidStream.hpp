@@ -77,7 +77,7 @@ namespace RaidStream {
 
         const RaidStreamStatus Status();
 
-        bool Open(unsigned int mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::ate);
+        bool Open(std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::ate);
 
     protected:
         inline bool needFlush();

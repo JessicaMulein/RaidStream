@@ -114,7 +114,7 @@ namespace RaidStream {
     //    return _configuration;
     //}
 
-    bool RaidFile::OpenOnly(unsigned int mode) {
+    bool RaidFile::OpenOnly(std::ios_base::openmode mode) {
         if (_fileStream != nullptr) {
             throw std::invalid_argument("File already open");
         }

@@ -19,10 +19,9 @@ namespace RaidStream {
             ERROR,
             DEGRADED,
             DEGRADED_REBUILDING,
-            CONSISTENT,
-            SYNCING,
-            SYNCING_DEGRADED,
-            SYNCING_REBUILDING,
+            CONSISTENT, // ONLINE, Good health
+            VERIFYING,  // ONLINE, but checking consistency (RO)
+            SCRUBBING,  // ONLINE, fixing detected consistency errors - (minor errors, not full disk)
             CLOSING,
             OFFLINE,
             OFFLINE_DEGRADED,
@@ -56,6 +55,8 @@ namespace RaidStream {
 
         inline bool Consistent();
 
+        inline bool Scrubbing();
+
         inline void Rebuild(bool forceRebuild = false);
 
         friend std::ostream &operator<<(std::ostream &os, const RaidStream &raidstream);
@@ -72,11 +73,15 @@ namespace RaidStream {
 
         inline std::vector<unsigned char> readAll(uintmax_t offset, bool readSpares = false);
 
+        const std::string StatusString();
+
+        const RaidStreamStatus Status();
+
     protected:
         inline bool needFlush();
         inline void flush();
 
-        RaidStreamStatus _status = RaidStreamStatus::CLOSED;
+        RaidStreamStatus _status = RaidStreamStatus::OPENING_UNVERIFIED;
         bool _openExistingArray = false;
         bool _openAllowInitialize = false;
         uintmax_t _currentOffset = 0;

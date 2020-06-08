@@ -62,7 +62,7 @@ int main() {
         std::cout << "  -- " << c->WarningCount() << " Warnings" << std::endl;
         std::cout << "  -- " << c->LogCount() << " Messages" << std::endl;
         RaidStream::RaidStream rs{*it, true, false};
-        std::cout << "  -- Loaded" << std::endl;
+        std::cout << "  -- Loaded with status: " << rs.StatusString() << std::endl;
     }
 
 }

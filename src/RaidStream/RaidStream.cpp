@@ -81,7 +81,6 @@ namespace RaidStream {
            RaidStreamStatus::DEGRADED,
            RaidStreamStatus::DEGRADED_REBUILDING,
            RaidStreamStatus::OFFLINE_DEGRADED,
-           RaidStreamStatus::SYNCING_DEGRADED
         }));
     }
 
@@ -89,8 +88,11 @@ namespace RaidStream {
         return InStatus(std::vector<RaidStreamStatus> ({
             RaidStreamStatus::DEGRADED_REBUILDING,
             RaidStreamStatus::OFFLINE_REBUILDING,
-            RaidStreamStatus::SYNCING_REBUILDING
         }));
+    }
+
+    bool RaidStream::Scrubbing() {
+        return (_status == RaidStreamStatus::SCRUBBING);
     }
 
     bool RaidStream::Consistent() {
@@ -209,11 +211,49 @@ namespace RaidStream {
     bool RaidStream::needFlush() {
         // TODO: check if any uncommitted writes to file buffers or if any of those need syncing
 //            return _uncommitted.in_avail();
+        // TODO: implement
         return false;
     }
 
     void RaidStream::flush() {
         if (!needFlush()) return;
-        _status = RaidStreamStatus::SYNCING;
+        // TODO: implement
+    }
+
+    const RaidStream::RaidStreamStatus RaidStream::Status() {
+        return _status;
+    }
+
+    const std::string RaidStream::StatusString() {
+        switch (this->Status()) {
+            case RaidStream::RaidStreamStatus::OFFLINE:
+                return "Offline - Initializing"; // just opened
+            case RaidStream::RaidStreamStatus::OFFLINE_REBUILDING:
+                return "Offline - Rebuilding";
+            case RaidStream::RaidStreamStatus::OFFLINE_DEGRADED:
+                return "Offline - Degraded";
+            case RaidStream::RaidStreamStatus::DEGRADED:
+                return "Degraded";
+            case RaidStream::RaidStreamStatus::DEGRADED_REBUILDING:
+                return "Degraded - Rebuilding";
+            case RaidStream::RaidStreamStatus::CONSISTENT:
+                return "Online - Consistent";
+            case RaidStream::RaidStreamStatus::VERIFYING:
+                return "Online - Verifying (Check Only)";
+            case RaidStream::RaidStreamStatus::SCRUBBING:
+                return "Online - Scrubbing/Repairing";
+            case RaidStream::RaidStreamStatus::OPENING_UNVERIFIED:
+                return "Offline - Opening, Unverified";
+            case RaidStream::RaidStreamStatus::OPENING_UNVERIFIED_VERIFYING:
+                return "Offline - Initial Verification";
+            case RaidStream::RaidStreamStatus::CLOSING:
+                return "Shutting down. Committing buffers.";
+            case RaidStream::RaidStreamStatus::CLOSED:
+                return "Offline - Shutdown";
+            case RaidStream::RaidStreamStatus::ERROR:
+                return "Offline - Unrecoverable Error";
+            default:
+                throw std::invalid_argument("Unknown raid column type");
+        }
     }
 }

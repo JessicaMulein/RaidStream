@@ -44,18 +44,15 @@ namespace RaidStream {
     }
 
     uintmax_t RaidFile::Size() {
-        std::error_code ec;
-        uintmax_t fileSize = std::filesystem::file_size(FileName(), ec);
-        if (ec) {
-
-        } else {
-
-        }
-        return fileSize;
+        return _actualSize;
     }
 
-    void RaidFile::Size(uintmax_t size) {
-        _actualSize = size;
+    uintmax_t RaidFile::SizeOnDisk(std::error_code &ec) {
+        uintmax_t fileSize = std::filesystem::file_size(FileName(), ec);
+        if (ec) {
+            return 0;
+        }
+        return fileSize;
     }
 
     uint64_t RaidFile::VirtualSize() {

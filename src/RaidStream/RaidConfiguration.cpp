@@ -1,4 +1,5 @@
 #include "RaidStream/RaidConfiguration.hpp"
+#include "RaidStream/RaidStream.hpp"
 #include <filesystem>
 
 namespace RaidStream {
@@ -13,7 +14,7 @@ namespace RaidStream {
             this->log("-- Opening " + it->FileName() + " of type " + it->TypeString());
 
             std::error_code ec;
-            uintmax_t actualSizeOnDisk = std::filesystem::file_size(it->FileName(), ec);
+            uintmax_t actualSizeOnDisk = it->SizeOnDisk(ec);
             if (ec) {
                 this->error(it->FileName() + ": " + ec.message());
                 actualSizeOnDisk = 0;
@@ -26,7 +27,12 @@ namespace RaidStream {
                 this->_bytesActualTotal += actualSizeOnDisk;
             }
             if (it->Size() != actualSizeOnDisk) {
-                this->error("Size on disk does not match configuration: " + std::to_string(actualSizeOnDisk) + " actual vs " + std::to_string(it->Size()) + " expected");
+                if (it->Type() == RaidFile::NEW) {
+                    this->log("-- File on disk is empty, but expected as this is marked NEW");
+                    this->warn("Array file will be initialized");
+                } else {
+                    this->error("Size on disk does not match configuration: " + BytesToSize(actualSizeOnDisk) + " actual vs " + BytesToSize(it->Size()) + " expected");
+                }
             }
 
             switch (it->Type()) {
@@ -60,12 +66,14 @@ namespace RaidStream {
             }
         }
         _files.swap(files);
-        this->log("  -- Detected data space: " + std::to_string(_bytesData));
-        this->log("  -- Detected mirror space: " + std::to_string(_bytesTotal));
-        this->log("  -- Detected XOR space: " + std::to_string(_bytesXor));
-        this->log("  -- Detected Reed Solomon space: " + std::to_string(_bytesReedSolomon));
-        this->log("  -- Detected Experimental space: " + std::to_string(_bytesExperimental));
-        this->log("  -- Total raw space as stored: " + std::to_string(_bytesTotal));
+        this->log("-- Done opening files. Calculating totals.");
+        this->log("  -- Configured data space used: " + BytesToSize(_bytesData));
+        this->log("  -- Configured mirror space used: " + BytesToSize(_bytesTotal));
+        this->log("  -- Configured XOR space used: " + BytesToSize(_bytesXor));
+        this->log("  -- Configured Reed Solomon space used: " + BytesToSize(_bytesReedSolomon));
+        this->log("  -- Configured Experimental space used: " + BytesToSize(_bytesExperimental));
+        this->log("  -- Configured total array size on disk: " + BytesToSize(_bytesTotal));
+        this->log("  -- Total space use as detected on disk: " + BytesToSize(_bytesActualTotal));
         this->log("Configuration Loaded");
     }
 
@@ -138,5 +146,21 @@ namespace RaidStream {
 
     const unsigned long RaidConfiguration::ErrorCount() {
         return _errorCount;
+    }
+
+    std::string RaidConfiguration::BytesToSize(uintmax_t bytes) {
+        std::ostringstream s;
+        s << std::fixed << std::setprecision(2) << std::showpoint;
+        if(bytes >= UNITS_TB )
+            s << ((float)bytes / UNITS_TB) << " TB";
+        else if(bytes >= UNITS_GB && bytes < UNITS_TB )
+            s << ((float)bytes / UNITS_GB) << " GB";
+        else if(bytes >= UNITS_MB && bytes < UNITS_GB )
+            s << ((float)bytes / UNITS_MB) << " MB";
+        else if(bytes >= UNITS_KB && bytes < UNITS_MB )
+            s << ((float)bytes / UNITS_KB) << " KB";
+        else /* if (bytes < UNITS_KB) */
+            s << bytes << " Bytes";
+        return s.str();
     }
 }

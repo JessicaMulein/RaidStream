@@ -45,6 +45,8 @@ namespace RaidStream {
 
         const unsigned long ErrorCount();
 
+        static std::string BytesToSize(uintmax_t bytes);
+
     protected:
         const sole::uuid _uuid = sole::uuid4();
         RaidType _type;

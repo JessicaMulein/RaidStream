@@ -81,11 +81,11 @@ namespace RaidStream {
         );
     }
 
-    unsigned int RaidFile::Mode() {
+    std::ios_base::openmode RaidFile::Mode() {
         return _fileMode;
     }
 
-    void RaidFile::Mode(unsigned int mode) {
+    void RaidFile::Mode(std::ios_base::openmode mode) {
         _fileMode = mode;
     }
 

@@ -68,9 +68,9 @@ namespace RaidStream {
 
         bool Rebuilding();
 
-        unsigned int Mode();
+        std::ios_base::openmode Mode();
 
-        void Mode(unsigned int mode);
+        void Mode(std::ios_base::openmode mode);
 
         void FlushBlock(RaidFileBlock::block_pos_t id, bool force = false, bool keepMemory = true);
 
@@ -92,7 +92,7 @@ namespace RaidStream {
         RaidFileBlock::block_pos_t _numBlocks;
         RaidFileBlock::block_pos_t _numBlocksVirtual;
         raid_block_map _loadedBlocks;
-        unsigned int _fileMode;
+        std::ios_base::openmode _fileMode;
     };
 }
 

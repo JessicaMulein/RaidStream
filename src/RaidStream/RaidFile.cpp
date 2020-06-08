@@ -154,7 +154,7 @@ namespace RaidStream {
     }
 
     inline bool RaidFile::SufficientSpaceForCreate(std::error_code &ec, uintmax_t withClearance) {
-        return (_actualSize <= DiskSpaceAvailable(ec));
+        return ((_actualSize + withClearance) <= DiskSpaceAvailable(ec));
     }
 
 }

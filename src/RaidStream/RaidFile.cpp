@@ -141,7 +141,7 @@ namespace RaidStream {
         return true;
     }
 
-    bool RaidFile::OpenOrCreate(unsigned int mode) {
+    bool RaidFile::OpenOrCreate(std::ios_base::openmode mode) {
         if (!OpenOnly(mode)) {
             return Create();
         }

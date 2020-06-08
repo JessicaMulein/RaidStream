@@ -48,11 +48,6 @@ int main() {
                 RaidStream::RaidConfiguration::RaidType::MIRROR, {
                         {"/tmp/raidstream5.0", RaidStream::RaidFile::FileType::DATA,static_cast<uintmax_t>(40*UNITS_MB)},
                         {"/tmp/raidstream5.1", RaidStream::RaidFile::FileType::PARITY_MIRROR,static_cast<uintmax_t>(40*UNITS_MB)},
-                }, &std::cout, &std::cerr),
-        RaidStream::RaidStream::MakeConfiguration(
-                RaidStream::RaidConfiguration::RaidType::RAID5, {
-                        {"/tmp/raidstream6.0", RaidStream::RaidFile::FileType::DATA,static_cast<uintmax_t>(40*UNITS_MB)},
-                        {"/tmp/raidstream6.1", RaidStream::RaidFile::FileType::PARITY_XOR,static_cast<uintmax_t>(40*UNITS_MB)},
                 }, &std::cout, &std::cerr)
     };
 

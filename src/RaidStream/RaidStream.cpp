@@ -3,7 +3,7 @@
 namespace RaidStream {
 
     RaidStream::RaidStream(std::shared_ptr<RaidConfiguration> configuration, bool existingArray, bool allowInitializeArray) :
-        _configuration{configuration.get()},
+        _configuration{configuration},
         _openExistingArray{existingArray},
         _openAllowInitialize{allowInitializeArray}
     {}

@@ -59,7 +59,7 @@ int main() {
     // do tests
     for (raid_config_vector::iterator it = configurations.begin(); it != configurations.end(); ++it) {
         std::cout << "Opening stream of type: " << it->get()->Type() << std::endl;
-        RaidStream::RaidStream rs = RaidStream::RaidStream(*it, true, false);
+        RaidStream::RaidStream rs{*it, true, false};
         std::cout << "Auto-destruct... in 3.. 2.. 1.. " << std::endl;
     }
 

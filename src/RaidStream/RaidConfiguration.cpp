@@ -27,7 +27,12 @@ namespace RaidStream {
                 this->_bytesActualTotal += actualSizeOnDisk;
             }
             if (it->Size() != actualSizeOnDisk) {
-                this->error("Size on disk does not match configuration: " + BytesToSize(actualSizeOnDisk) + " actual vs " + BytesToSize(it->Size()) + " expected");
+                if (it->Type() == RaidFile::NEW) {
+                    this->log("-- File on disk is empty, but expected as this is marked NEW");
+                    this->warn("Array file will be initialized");
+                } else {
+                    this->error("Size on disk does not match configuration: " + BytesToSize(actualSizeOnDisk) + " actual vs " + BytesToSize(it->Size()) + " expected");
+                }
             }
 
             switch (it->Type()) {
@@ -61,14 +66,14 @@ namespace RaidStream {
             }
         }
         _files.swap(files);
-        this->log("  -- Detected data space: " + BytesToSize(_bytesData));
-        this->log("  -- Detected mirror space: " + BytesToSize(_bytesTotal));
-        this->log("  -- Detected XOR space: " + BytesToSize(_bytesXor));
-        this->log("  -- Detected Reed Solomon space: " + BytesToSize(_bytesReedSolomon));
-        this->log("  -- Detected Experimental space: " + BytesToSize(_bytesExperimental));
-        this->log("  -- Full array size on disk: " + BytesToSize(_bytesTotal));
-        this->log("  -- Actual filesize detected on disk: " + BytesToSize(_bytesActualTotal));
-
+        this->log("-- Done opening files. Calculating totals.");
+        this->log("  -- Configured data space used: " + BytesToSize(_bytesData));
+        this->log("  -- Configured mirror space used: " + BytesToSize(_bytesTotal));
+        this->log("  -- Configured XOR space used: " + BytesToSize(_bytesXor));
+        this->log("  -- Configured Reed Solomon space used: " + BytesToSize(_bytesReedSolomon));
+        this->log("  -- Configured Experimental space used: " + BytesToSize(_bytesExperimental));
+        this->log("  -- Configured total array size on disk: " + BytesToSize(_bytesTotal));
+        this->log("  -- Total space use as detected on disk: " + BytesToSize(_bytesActualTotal));
         this->log("Configuration Loaded");
     }
 

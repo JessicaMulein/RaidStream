@@ -35,6 +35,8 @@ namespace RaidStream {
 
         RaidType Type();
 
+        std::string TypeString();
+
     protected:
         const sole::uuid _uuid = sole::uuid4();
         RaidType _type;

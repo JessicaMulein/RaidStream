@@ -15,6 +15,25 @@ namespace RaidStream {
         return _fileType;
     }
 
+    const std::string RaidFile::TypeString() {
+        switch (this->_fileType) {
+            case DATA:
+                return "Data";
+            case PARITY_MIRROR:      // 0 raid parity algorithms: 50% overhead, 50% redundancy, requires N % 2 = 0
+                return "Data Mirror";
+            case PARITY_XOR:       // 1 raid parity algorithm, XOR:
+                return "Xor Parity";
+            case PARITY_RS:       // 2 raid parity algorithms, XOR, RS
+                return "Reed Solomon Parity";
+            case PARITY_EXPERIMENTAL: // 3 raid parity algorithms XOR, RS, XOR+RS(?)
+                return "Experimental Parity";
+            case SPARE:
+                return "Spare Volume";
+            default:
+                return std::string();
+        }
+    }
+
     const std::string RaidFile::FileName() const {
         return _fileName;
     }

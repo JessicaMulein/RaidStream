@@ -2,6 +2,8 @@
 
 typedef std::vector<std::shared_ptr<RaidStream::RaidConfiguration>> raid_config_vector;
 int main() {
+    std::cout << "Making configurations" << std::endl;
+
     raid_config_vector configurations = {
         RaidStream::RaidStream::MakeConfiguration(
             RaidStream::RaidConfiguration::RaidType::EXPERIMENTAL, {
@@ -51,11 +53,10 @@ int main() {
                 }, &std::cout, &std::cerr)
     };
 
+    std::cout << "Creating raid(s) for testing" << std::endl;
     // do tests
     for (raid_config_vector::iterator it = configurations.begin(); it != configurations.end(); ++it) {
-        std::cout << "Opening stream of type: " << it->get()->Type() << std::endl;
         RaidStream::RaidStream rs{*it, true, false};
-        std::cout << "Auto-destruct... in 3.. 2.. 1.. " << std::endl;
     }
 
 }

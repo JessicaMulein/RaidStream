@@ -46,6 +46,8 @@ namespace RaidStream {
 
         const FileType Type() const;
 
+        const std::string TypeString();
+
         const std::string FileName() const;
 
         uintmax_t SparseSize();

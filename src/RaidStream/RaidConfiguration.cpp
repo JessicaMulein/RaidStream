@@ -4,16 +4,21 @@
 namespace RaidStream {
     RaidConfiguration::RaidConfiguration(RaidType type, std::vector<RaidFile> files, std::ostream *os,
                                          std::ostream *oe) : _type{type}, _os{os}, _oe{oe} {
+
+        this->log("Loading configuration of type " + this->TypeString());
+
         for (std::vector<RaidFile>::iterator it = files.begin(); it != files.end(); ++it) {
             // set the configuration on this RaidFile
             it->_setConfiguration(this);
+            this->log("-- Opening " + it->FileName() + " of type " + it->TypeString());
 
             std::error_code ec;
             uintmax_t fileSize = std::filesystem::file_size(it->FileName(), ec);
             if (ec) {
                 this->warn("ERROR: " + it->FileName() + ": " + ec.message());
-            }
-            if (fileSize > 0) {
+                this->warn("Skipping this volume");
+                continue; // TODO: Decide severity of this error
+            } else if (fileSize > 0) {
                 // if it's empty, its ready to initialize
                 // if it's not, this file has data!
                 this->warn("WARNING: " + it->FileName() + ": File has existing data");
@@ -49,12 +54,13 @@ namespace RaidStream {
             }
         }
         _files.swap(files);
-        this->log("Detected data space: " + std::to_string(_expectedAvailableDataBytes));
-        this->log("Detected mirror space: " + std::to_string(_expectedTotalBytes));
-        this->log("Detected XOR space: " + std::to_string(_expectedXorBytes));
-        this->log("Detected Reed Solomon space: " + std::to_string(_expectedReedSolomonBytes));
-        this->log("Detected Experimental space: " + std::to_string(_expectedExperimentalBytes));
-        this->log("Total raw space as stored: " + std::to_string(_expectedTotalBytes));
+        this->log("  -- Detected data space: " + std::to_string(_expectedAvailableDataBytes));
+        this->log("  -- Detected mirror space: " + std::to_string(_expectedTotalBytes));
+        this->log("  -- Detected XOR space: " + std::to_string(_expectedXorBytes));
+        this->log("  -- Detected Reed Solomon space: " + std::to_string(_expectedReedSolomonBytes));
+        this->log("  -- Detected Experimental space: " + std::to_string(_expectedExperimentalBytes));
+        this->log("  -- Total raw space as stored: " + std::to_string(_expectedTotalBytes));
+        this->log("Configuration Loaded");
     }
 
     std::vector<RaidFile> RaidConfiguration::Files() {
@@ -91,5 +97,22 @@ namespace RaidStream {
 
     RaidConfiguration::RaidType RaidConfiguration::Type() {
         return _type;
+    }
+
+    std::string RaidConfiguration::TypeString() {
+        switch (this->_type) {
+            case JBOD:        // 0 raid parity algorithms: 0% overhead, 0% redundancy
+                return "JBOD";
+            case MIRROR:      // 0 raid parity algorithms: 50% overhead, 50% redundancy, requires N % 2 = 0
+                return "MIRROR";
+            case RAID5:       // 1 raid parity algorithm, XOR:
+                return "RAID-5";
+            case RAID6:       // 2 raid parity algorithms, XOR, RS
+                return "RAID-6";
+            case EXPERIMENTAL: // 3 raid parity algorithms XOR, RS, XOR+RS(?)
+                return "Experimental";
+            default:
+                return std::string();
+        }
     }
 }

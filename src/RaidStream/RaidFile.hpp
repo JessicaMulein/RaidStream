@@ -77,12 +77,17 @@ namespace RaidStream {
         
         //std::shared_ptr<RaidConfiguration> Configuration();
 
+        uintmax_t DiskSpaceAvailable();
+
+        inline bool SufficientSpaceForCreate(uintmax_t withClearance = 0);
+
     protected:
         friend class RaidConfiguration;
         friend class RaidStream;
         void mode(std::ios_base::openmode mode);
         void setConfiguration(RaidConfiguration* configuration);
         bool OpenOnly(std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::ate);
+        bool OpenOrCreate(std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::ate);
         bool Create();
         RaidConfiguration* _configuration = nullptr;
         const sole::uuid _uuid = sole::uuid4();

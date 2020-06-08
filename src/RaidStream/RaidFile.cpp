@@ -122,11 +122,37 @@ namespace RaidStream {
         _fileStream = new std::ofstream(this->FileName(), mode);
         if (!_fileStream->is_open()) {
             this->_configuration->warn("Could not open " + this->FileName());
+            return false;
         }
+        return true;
     }
 
     bool RaidFile::Create() {
+        if (_fileStream != nullptr) {
+            return false;
+        }
+        if (!SufficientSpaceForCreate()) {
+            this->_configuration->error("Insufficient disk space for volume");
+            return false;
+        }
+        // TODO: create
+        return true;
+    }
 
+    bool RaidFile::OpenOrCreate(unsigned int mode) {
+        if (!OpenOnly(mode)) {
+            return Create();
+        }
+        return true;
+    }
+
+    uintmax_t RaidFile::DiskSpaceAvailable() {
+        std::filesystem::space_info spaceInfo = std::filesystem::space(this->_fileName);
+        return spaceInfo.available;
+    }
+
+    inline bool RaidFile::SufficientSpaceForCreate(uintmax_t withClearance) {
+        return (_actualSize <= DiskSpaceAvailable());
     }
 
 }

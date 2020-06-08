@@ -119,15 +119,17 @@ namespace RaidStream {
             throw std::invalid_argument("File already open");
         }
         _fileMode = mode;
-        _fileStream = new std::ofstream(this->FileName(), mode);
+        _fileStream = new std::fstream(this->FileName(), mode);
         if (!_fileStream->is_open()) {
             this->_configuration->warn("Could not open " + this->FileName());
+            delete _fileStream;
+            _fileStream = nullptr;
             return false;
         }
         return true;
     }
 
-    bool RaidFile::Create() {
+    bool RaidFile::Create(std::ios::openmode mode) {
         if (_fileStream != nullptr) {
             return false;
         }
@@ -137,8 +139,13 @@ namespace RaidStream {
             this->_configuration->error("Insufficient disk space for volume");
             return false;
         }
-        // TODO: create
-        return true;
+        std::ofstream tmp = std::ofstream(this->FileName(), std::ios::trunc);
+        if (!tmp.is_open()) {
+            return false;
+        }
+        tmp.close();
+
+        return OpenOnly(mode);
     }
 
     bool RaidFile::OpenOrCreate(std::ios_base::openmode mode) {

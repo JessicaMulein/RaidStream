@@ -19,7 +19,13 @@ namespace RaidStream {
         // open all the handles
         _status = RaidStreamStatus::OPENING_UNVERIFIED;
         for (std::vector<RaidFile>::iterator it = _configuration->Files().begin(); it != _configuration->Files().end(); it++) {
-            it->OpenOnly(mode);
+            if (!it->OpenOnly(mode)) {
+                if (it->Status() == RaidFile::NEW) {
+                    if (!it->Create(mode)) {
+                        return false;
+                    }
+                }
+            }
         }
         // verify that all the files are associated and consistent
         _status = RaidStreamStatus::OPENING_UNVERIFIED_VERIFYING;

@@ -90,12 +90,12 @@ namespace RaidStream {
         void setConfiguration(RaidConfiguration* configuration);
         bool OpenOnly(std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::ate);
         bool OpenOrCreate(std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::ate);
-        bool Create();
+        bool Create(std::ios::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::ate);
         RaidConfiguration* _configuration = nullptr;
         const sole::uuid _uuid = sole::uuid4();
         const std::string _fileName;
         const FileType _type;
-        const std::ofstream* _fileStream;
+        const std::fstream* _fileStream;
         uintmax_t _virtualSize = 0; // may/will be < actual size
         uintmax_t _actualSize = 0;  // size on disk
         FileStatus _fileStatus = FileStatus::NEW;

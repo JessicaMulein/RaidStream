@@ -66,7 +66,9 @@ namespace RaidStream {
         this->log("  -- Detected XOR space: " + BytesToSize(_bytesXor).str());
         this->log("  -- Detected Reed Solomon space: " + BytesToSize(_bytesReedSolomon).str());
         this->log("  -- Detected Experimental space: " + BytesToSize(_bytesExperimental).str());
-        this->log("  -- Total raw space as stored: " + BytesToSize(_bytesTotal).str());
+        this->log("  -- Full array size on disk: " + BytesToSize(_bytesTotal).str());
+        this->log("  -- Actual filesize detected on disk: " + BytesToSize(_bytesActualTotal).str());
+
         this->log("Configuration Loaded");
     }
 

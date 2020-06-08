@@ -141,7 +141,7 @@ namespace RaidStream {
         return _errorCount;
     }
 
-    static std::string BytesToSize( uintmax_t bytes ) {
+    std::string RaidConfiguration::BytesToSize(uintmax_t bytes) {
         char returnSize[256];
 
         if(bytes >= UNITS_TB )

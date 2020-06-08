@@ -145,20 +145,17 @@ namespace RaidStream {
 
     std::string RaidConfiguration::BytesToSize(uintmax_t bytes) {
         std::ostringstream s;
+        s << std::fixed << std::setprecision(2) << std::showpoint;
         if(bytes >= UNITS_TB )
-            s << std::setfill('0') << std::setw(2) << ((float)bytes / UNITS_TB) << " TB";
+            s << ((float)bytes / UNITS_TB) << " TB";
         else if(bytes >= UNITS_GB && bytes < UNITS_TB )
-            s << std::setfill('0') << std::setw(2) << ((float)bytes / UNITS_GB) << " GB";
+            s << ((float)bytes / UNITS_GB) << " GB";
         else if(bytes >= UNITS_MB && bytes < UNITS_GB )
-            s << std::setfill('0') << std::setw(2) << ((float)bytes / UNITS_MB) << " MB";
+            s << ((float)bytes / UNITS_MB) << " MB";
         else if(bytes >= UNITS_KB && bytes < UNITS_MB )
-            s << std::setfill('0') << std::setw(2) << ((float)bytes / UNITS_KB) << " KB";
-        else if (bytes < UNITS_KB)
+            s << ((float)bytes / UNITS_KB) << " KB";
+        else /* if (bytes < UNITS_KB) */
             s << bytes << " Bytes";
-        else
-            // ?? why was this separate?
-            s << bytes << " Bytes";
-
         return s.str();
     }
 }

@@ -7,11 +7,13 @@ namespace RaidStream {
                                          std::ostream *oe) : _type{type}, _os{os}, _oe{oe} {
 
         this->log("Loading configuration of type " + this->TypeString());
+        this->log("Configuration UUID: " + UUID().str());
 
         for (std::vector<RaidFile>::iterator it = files.begin(); it != files.end(); ++it) {
             // set the configuration on this RaidFile
             it->setConfiguration(this);
-            this->log("-- Found described volume: " + it->FileName() + " of type " + it->TypeString());
+            this->log(" -- Found described volume: " + it->FileName() + " of type " + it->TypeString());
+            this->log(" -- Volume UUID: " + it->UUID().str());
 
             std::error_code ec;
             uintmax_t actualSizeOnDisk = it->SizeOnDisk(ec);

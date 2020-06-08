@@ -82,10 +82,10 @@ namespace RaidStream {
         RaidConfiguration* _configuration = nullptr;
         const sole::uuid _uuid = sole::uuid4();
         const std::string _fileName;
-        const FileType _fileType;
+        const FileType _type;
         const std::ofstream* _fileStream;
         uintmax_t _virtualSize = 0; // may/will be < actual size
-        uintmax_t _actualSize = 0;
+        uintmax_t _actualSize = 0;  // size on disk
         FileStatus _fileStatus = FileStatus::NEW;
         RaidFileBlock::block_pos_t _numBlocks;
         RaidFileBlock::block_pos_t _numBlocksVirtual;

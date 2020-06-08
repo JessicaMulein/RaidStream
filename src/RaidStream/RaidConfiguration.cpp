@@ -26,40 +26,40 @@ namespace RaidStream {
             switch (it->Type()) {
                 case RaidFile::FileType::DATA:
                     this->_filesData++;
-                    this->_expectedAvailableDataBytes += fileSize;
-                    this->_expectedTotalBytes += fileSize;
+                    this->_bytesData += fileSize;
+                    this->_bytesTotal += fileSize;
                     break;
                 case RaidFile::FileType::PARITY_MIRROR:
                     this->_filesMirror++;
-                    this->_expectedMirrorBytes += fileSize;
-                    this->_expectedTotalBytes += fileSize;
+                    this->_bytesMirror += fileSize;
+                    this->_bytesTotal += fileSize;
                     break;
                 case RaidFile::FileType::PARITY_XOR:
                     this->_filesXor++;
-                    this->_expectedXorBytes += fileSize;
-                    this->_expectedTotalBytes += fileSize;
+                    this->_bytesXor += fileSize;
+                    this->_bytesTotal += fileSize;
                     break;
                 case RaidFile::FileType::PARITY_RS:
                     this->_filesReedSolomon++;
-                    this->_expectedReedSolomonBytes += fileSize;
-                    this->_expectedTotalBytes += fileSize;
+                    this->_bytesReedSolomon += fileSize;
+                    this->_bytesTotal += fileSize;
                     break;
                 case RaidFile::FileType::PARITY_EXPERIMENTAL:
                     this->_filesExperimental++;
-                    this->_expectedExperimentalBytes += fileSize;
-                    this->_expectedTotalBytes += fileSize;
+                    this->_bytesExperimental += fileSize;
+                    this->_bytesTotal += fileSize;
                     break;
                 default:
                     throw std::invalid_argument("Unexpected RaidFile::FileType");
             }
         }
         _files.swap(files);
-        this->log("  -- Detected data space: " + std::to_string(_expectedAvailableDataBytes));
-        this->log("  -- Detected mirror space: " + std::to_string(_expectedTotalBytes));
-        this->log("  -- Detected XOR space: " + std::to_string(_expectedXorBytes));
-        this->log("  -- Detected Reed Solomon space: " + std::to_string(_expectedReedSolomonBytes));
-        this->log("  -- Detected Experimental space: " + std::to_string(_expectedExperimentalBytes));
-        this->log("  -- Total raw space as stored: " + std::to_string(_expectedTotalBytes));
+        this->log("  -- Detected data space: " + std::to_string(_bytesData));
+        this->log("  -- Detected mirror space: " + std::to_string(_bytesTotal));
+        this->log("  -- Detected XOR space: " + std::to_string(_bytesXor));
+        this->log("  -- Detected Reed Solomon space: " + std::to_string(_bytesReedSolomon));
+        this->log("  -- Detected Experimental space: " + std::to_string(_bytesExperimental));
+        this->log("  -- Total raw space as stored: " + std::to_string(_bytesTotal));
         this->log("Configuration Loaded");
     }
 

@@ -5,18 +5,18 @@ namespace RaidStream {
     RaidFile::RaidFile(const char* filename, FileType type, uintmax_t sizeOnDisk,
             std::ios_base::openmode mode) :
             _fileName{std::string(filename)},
-            _fileType{type},
+            _type{type},
             _actualSize{sizeOnDisk},
             _fileMode{mode},
             _fileStream{new std::ofstream(filename, mode)}
         {}
 
     const RaidFile::FileType RaidFile::Type() const {
-        return _fileType;
+        return _type;
     }
 
     const std::string RaidFile::TypeString() {
-        switch (this->_fileType) {
+        switch (this->_type) {
             case DATA:
                 return "Data";
             case PARITY_MIRROR:      // 0 raid parity algorithms: 50% overhead, 50% redundancy, requires N % 2 = 0

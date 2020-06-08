@@ -59,12 +59,12 @@ namespace RaidStream {
         unsigned short _filesXor = 0;
         unsigned short _filesReedSolomon = 0;
         unsigned short _filesExperimental = 0;
-        uintmax_t _expectedAvailableDataBytes = 0;
-        uintmax_t _expectedMirrorBytes = 0;
-        uintmax_t _expectedXorBytes = 0;
-        uintmax_t _expectedReedSolomonBytes = 0;
-        uintmax_t _expectedExperimentalBytes = 0;
-        uintmax_t _expectedTotalBytes = 0;
+        uintmax_t _bytesData = 0;
+        uintmax_t _bytesMirror = 0;
+        uintmax_t _bytesXor = 0;
+        uintmax_t _bytesReedSolomon = 0;
+        uintmax_t _bytesExperimental = 0;
+        uintmax_t _bytesTotal = 0;
     };
 }
 

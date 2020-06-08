@@ -24,6 +24,7 @@ set(RAIDSTREAM_SOURCES
         src/RaidStream/RaidSuperStripe.cpp
 #        src/RaidStream/RaidStripeGroup.cpp
 #        src/RaidStream/RaidStripeGroup.hpp
+        src/RaidStream/algorithms/Algorithm.hpp
         src/RaidStream/algorithms/AlgorithmMirror.cpp
         src/RaidStream/algorithms/AlgorithmMirror.hpp
         src/RaidStream/algorithms/AlgorithmJbod.cpp

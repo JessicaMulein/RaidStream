@@ -1,4 +1,5 @@
 #include "RaidStream/RaidStream.hpp"
+#include "RaidStream/exceptions/Exception.hpp"
 
 namespace RaidStream {
 
@@ -14,7 +15,7 @@ namespace RaidStream {
 
     bool RaidStream::Open(std::ios_base::openmode mode) {
         if (_status != OPENING_UNVERIFIED) {
-            throw std::invalid_argument("Unable to open RaidStream when not closed");
+            throw Exception("Unable to open RaidStream when not closed");
         }
         // open all the handles
         _status = RaidStreamStatus::OPENING_UNVERIFIED;

@@ -6,6 +6,7 @@ set(CMAKE_VERBOSE_MAKEFILE True)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(RAIDSTREAM_SOURCES
+        src/RaidStream/exceptions/Exception.hpp
         src/RaidStream/crc64/crc64.hpp
         src/RaidStream/crc64/crc64.cpp
         src/RaidStream/RaidStream.hpp

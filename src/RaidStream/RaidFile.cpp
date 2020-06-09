@@ -1,5 +1,6 @@
 #include "RaidStream/RaidFile.hpp"
 #include "RaidStream/RaidConfiguration.hpp"
+#include "RaidStream/exceptions/Exception.hpp"
 #include <filesystem>
 
 namespace RaidStream {
@@ -62,7 +63,7 @@ namespace RaidStream {
 
     void RaidFile::VirtualSize(uint64_t size) {
         if (size > _actualSize) {
-            throw std::invalid_argument("Virtual Size must be <= Size");
+            throw Exception("Virtual Size must be <= Size");
         }
         _virtualSize = size;
     }
@@ -106,7 +107,7 @@ namespace RaidStream {
     }
 
     void RaidFile::setConfiguration(RaidConfiguration* configuration) {
-        if (_configuration != nullptr) throw std::invalid_argument("Configuration already set");
+        if (_configuration != nullptr) throw Exception("Configuration already set");
         _configuration = configuration;
     }
 
@@ -116,7 +117,7 @@ namespace RaidStream {
 
     bool RaidFile::OpenOnly(std::ios_base::openmode mode) {
         if (_fileStream != nullptr) {
-            throw std::invalid_argument("File already open");
+            throw Exception("File already open");
         }
         _fileMode = mode;
         _fileStream = new std::fstream(this->FileName(), mode);

@@ -59,7 +59,7 @@ namespace RaidStream {
 
 //        void RaidStream::Close() {
 //            if (Closing() || Closed()) {
-//                throw std::invalid_argument("Unable to Close RaidStream when not open");
+//                throw Exception("Unable to Close RaidStream when not open");
 //            }
 //            // Sync!
 //            Sync();
@@ -128,7 +128,7 @@ namespace RaidStream {
     }
 
     void RaidStream::Sync() {
-        if (needFlush() && Closed()) throw std::invalid_argument("Sync Failure. Resource not available.");
+        if (needFlush() && Closed()) throw Exception("Sync Failure. Resource not available.");
         // write each uncommitted byte to disk
 //            std::streamsize bytesToSync = _uncommitted.in_avail();
 //            for (std::streamsize it = 0; it < bytesToSync; it++) {
@@ -156,7 +156,7 @@ namespace RaidStream {
 //                it->second.seekg(offset);
 //                const unsigned char c = CalculateKnownData(it->first, offset, data, nullptr);
 //                it->second.write(reinterpret_cast<const char *>(&c), 1);
-////                else throw std::invalid_argument("Unexpected spare disk.");
+////                else throw Exception("Unexpected spare disk.");
 //            }
 
     }
@@ -194,7 +194,7 @@ namespace RaidStream {
             case RaidFile::FileType::PARITY_EXPERIMENTAL:
                 break;
             default:
-                throw std::invalid_argument("Unknown raid column type");
+                throw Exception("Unknown raid column type");
         }
         // already thrown in default by here or retunred
         assert(false);
@@ -259,7 +259,7 @@ namespace RaidStream {
             case RaidStream::RaidStreamStatus::ERROR:
                 return "Offline - Unrecoverable Error";
             default:
-                throw std::invalid_argument("Unknown raid column type");
+                throw Exception("Unknown raid column type");
         }
     }
 }

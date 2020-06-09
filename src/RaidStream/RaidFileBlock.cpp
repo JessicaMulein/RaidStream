@@ -1,11 +1,11 @@
 #include "RaidStream/RaidFileBlock.hpp"
-
+#include "RaidStream/exceptions/Exception.hpp"
 
 namespace RaidStream {
     RaidFileBlock::RaidFileBlock(uintmax_t nativeOffset) :
             _blockID{static_cast<RaidFileBlock::block_pos_t>(nativeOffset / BLOCK_SIZE)} {
         if ((nativeOffset % BLOCK_SIZE) != 0) {
-            throw std::invalid_argument("nativeOffset must be at multiple of block size");
+            throw Exception("nativeOffset must be at multiple of block size");
         }
     }
 
@@ -62,7 +62,7 @@ namespace RaidStream {
 
     RaidFileBlock::block_data_type RaidFileBlock::at(block_size_t offset) {
         if ((offset < 0) || (offset >= BLOCK_SIZE)) {
-            throw std::invalid_argument("Invalid offset out of range");
+            throw Exception("Invalid offset out of range");
         }
         return Bytes()[offset];
     }
@@ -84,7 +84,7 @@ namespace RaidStream {
     RaidFileBlock::block_data_type *RaidFileBlock::Bytes() {
         if (!InMemory()) {
             if (!ReadBlockFromDisk()) {
-                throw std::invalid_argument("Unable to read disk"); // TODO: error types
+                throw Exception("Unable to read disk"); // TODO: error types
             }
         }
         return _bytes;

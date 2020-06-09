@@ -1,5 +1,6 @@
 #include "RaidStream/RaidConfiguration.hpp"
 #include "RaidStream/RaidStream.hpp"
+#include "RaidStream/exceptions/Exception.hpp"
 #include <filesystem>
 
 namespace RaidStream {
@@ -64,7 +65,7 @@ namespace RaidStream {
                     this->_bytesTotal += it->Size();
                     break;
                 default:
-                    throw std::invalid_argument("Unexpected RaidFile::FileType");
+                    throw Exception("Unexpected RaidFile::FileType");
             }
         }
         _files.swap(files);

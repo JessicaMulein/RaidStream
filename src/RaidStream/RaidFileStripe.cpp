@@ -1,4 +1,5 @@
 #include "RaidStream/RaidFileStripe.hpp"
+#include "RaidStream/exceptions/Exception.hpp"
 
 namespace RaidStream {
     RaidFileStripe::RaidFileStripe(std::shared_ptr<RaidFile> raidFile, const RaidStripeType type, std::vector<RaidFileBlock> blocks) :
@@ -11,7 +12,7 @@ namespace RaidStream {
                 _blockSize = it->BlockSize();
                 setBlockSize = false;
             } else if (it->BlockSize() != _blockSize) {
-                throw new std::invalid_argument("Block sizes must match throughout stripe");
+                throw Exception("Block sizes must match throughout stripe");
             }
             _stripeBlocks.insert(std::make_pair(it->BlockID(), *it));
 //                if (it->)

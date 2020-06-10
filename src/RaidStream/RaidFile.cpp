@@ -16,23 +16,12 @@ namespace RaidStream {
         return _type;
     }
 
-    const std::string RaidFile::TypeString() {
-        switch (this->_type) {
-            case DATA:
-                return "Data";
-            case PARITY_MIRROR:      // 0 raid parity algorithms: 50% overhead, 50% redundancy, requires N % 2 = 0
-                return "Data Mirror";
-            case PARITY_XOR:       // 1 raid parity algorithm, XOR:
-                return "Xor Parity";
-            case PARITY_RS:       // 2 raid parity algorithms, XOR, RS
-                return "Reed Solomon Parity";
-            case PARITY_EXPERIMENTAL: // 3 raid parity algorithms XOR, RS, XOR+RS(?)
-                return "Experimental Parity";
-            case SPARE:
-                return "Spare Volume";
-            default:
-                return std::string();
+    const std::string RaidFile::TypeString() { // TODO: DRY
+        std::map<FileType, const std::string>::const_iterator it = FileTypeDescriptions.find(_type);
+        if (it != FileTypeDescriptions.end()) {
+            return it->second;
         }
+        return std::string();
     }
 
     const std::string RaidFile::FileName() const {
@@ -67,9 +56,17 @@ namespace RaidStream {
         _virtualSize = size;
     }
 
-    RaidFile::FileStatus RaidFile::Status() {
+    const RaidFile::FileStatus RaidFile::Status() {
         return _fileStatus;
-    };
+    }
+
+    const std::string RaidFile::StatuString() { // TODO: DRY
+        std::map<FileStatus, const std::string>::const_iterator it = FileStatusDescriptions.find(_fileStatus);
+        if (it != FileStatusDescriptions.end()) {
+            return it->second;
+        }
+        return std::string();
+    }
 
     bool RaidFile::Consistent() {
         return (_fileStatus == FileStatus::CONSISTENT);
@@ -164,4 +161,35 @@ namespace RaidStream {
         return ((_actualSize + withClearance) <= DiskSpaceAvailable(ec));
     }
 
+    void RaidFile::to_json(json &j, const RaidFile &file) {
+
+    }
+
+    RaidFile::RaidFile(RaidConfiguration *config, json configJson) {
+        this->setConfiguration(config);
+        if (configJson.contains("uuid")) {
+            const std::string uuid = configJson.at("uuid").get<std::string>();
+            _uuid = sole::rebuild(uuid);
+        } else {
+            this->_configuration->warn("Config did not contain UUID");
+            _uuid = sole::uuid4();
+        }
+        if (configJson.contains("type")) {
+            _type = configJson.at("type").get<FileType>();
+        } else {
+            this->_configuration->error("Config did not contain TYPE");
+        }
+    }
+}
+
+namespace nlohmann {
+    template <>
+    struct adl_serializer<RaidStream::RaidFile> {
+        static RaidStream::RaidFile from_json(const json& j) {
+            return RaidStream::RaidFile(j);
+        }
+        static void to_json(json& j, RaidStream::RaidFile t) {
+            RaidStream::RaidFile::to_json(j, t);
+        }
+    };
 }

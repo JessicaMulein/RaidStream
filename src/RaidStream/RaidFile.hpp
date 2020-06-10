@@ -5,10 +5,13 @@
 #include <fstream>
 #include <map>
 #include <memory>
+#include <nlohmann/json.hpp>
 #include <sole/sole.hpp>
 #include "RaidStream/RaidFileBlock.hpp"
 #include "RaidStream/RaidSuperBlock.hpp"
 //#include "RaidStream/RaidStripeGroup.hpp"
+
+using json = nlohmann::json;
 
 namespace RaidStream {
     class RaidConfiguration;
@@ -28,6 +31,17 @@ namespace RaidStream {
             OFFLINE,
             OFFLINE_REBUILDING
         };
+#define FileStatusEnumMap { \
+        {NEW, "New"}, \
+        {UNVERIFIED, "Unverified"}, \
+        {CONSISTENT, "Online - Consistent"}, \
+        {DEGRADED, "Online - Degraded"}, \
+        {DEGRADED_REBUILDING, "Degraded - Rebuilding"}, \
+        {OFFLINE, "Offline"}, \
+        {OFFLINE_REBUILDING, "Offline - Rebuilding"}, \
+    }
+        const std::map<FileStatus, const std::string> FileStatusDescriptions = FileStatusEnumMap;
+        NLOHMANN_JSON_SERIALIZE_ENUM( FileStatus, FileStatusEnumMap);
 
         enum FileType {
             DATA,
@@ -37,12 +51,23 @@ namespace RaidStream {
             PARITY_EXPERIMENTAL,
             SPARE
         };
+#define FileTypeEnumMap { \
+        {DATA, "Data"}, \
+        {PARITY_MIRROR, "Mirror"}, \
+        {PARITY_XOR, "Parity - XOR"}, \
+        {PARITY_RS, "Parity - Reed Solomon"}, \
+        {PARITY_EXPERIMENTAL, "Parity - Experimental"}, \
+        {SPARE, "Spare"}, \
+    }
+        const std::map<FileType, const std::string> FileTypeDescriptions = FileTypeEnumMap;
+        NLOHMANN_JSON_SERIALIZE_ENUM( FileType, FileTypeEnumMap);
 
         RaidFile(const char* filename,
                         FileType type,
                         uintmax_t sizeOnDisk = 0,
                         std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::ate | std::ios_base::binary
         );
+        RaidFile(RaidConfiguration *config, json configJson);
         RaidFile(const RaidFile&) = delete;
         RaidFile(RaidFile&&) = default;
 
@@ -64,14 +89,15 @@ namespace RaidStream {
 
         void VirtualSize(uint64_t size);
 
-        FileStatus Status();
+        const FileStatus Status();
+
+        const std::string StatuString();
 
         bool Consistent();
 
         bool Rebuilding();
 
         std::ios_base::openmode Mode();
-
 
         void FlushBlock(RaidFileBlock::block_pos_t id, bool force = false, bool keepMemory = true);
 
@@ -83,6 +109,8 @@ namespace RaidStream {
 
         inline bool SufficientSpaceForCreate(std::error_code &ec, uintmax_t withClearance = 0);
 
+        static void to_json(json &j, const RaidFile &file);
+
     protected:
         friend class RaidConfiguration;
         friend class RaidStream;
@@ -92,10 +120,10 @@ namespace RaidStream {
         bool OpenOrCreate(std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::ate);
         bool Create(std::ios::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary | std::ios_base::ate);
         RaidConfiguration* _configuration = nullptr;
-        const sole::uuid _uuid = sole::uuid4();
-        const std::string _fileName;
-        const FileType _type;
-        const std::fstream* _fileStream;
+        sole::uuid _uuid = sole::uuid4();
+        std::string _fileName;
+        FileType _type;
+        std::fstream* _fileStream;
         uintmax_t _virtualSize = 0; // may/will be < actual size
         uintmax_t _actualSize = 0;  // size on disk
         FileStatus _fileStatus = FileStatus::NEW;

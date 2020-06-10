@@ -1,8 +1,9 @@
 #ifndef RAIDSTREAM_RAIDFILEBLOCK_HPP
 #define RAIDSTREAM_RAIDFILEBLOCK_HPP
 
+#include <cstdint>
 #define USE_1024 false // Make sure this aligns with your disk!
-#define UNITS_KB (USE_1024 ? 1024 : 1000)
+#define UNITS_KB (USE_1024 ? UINT64_C(1024) : UINT64_C(1000))
 #define UNITS_MB (UNITS_KB * UNITS_KB)
 #define UNITS_GB (UNITS_MB * UNITS_KB)
 #define UNITS_TB (UNITS_GB * UNITS_KB)

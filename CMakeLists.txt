@@ -83,9 +83,15 @@ add_subdirectory(src/libschifra)
 target_include_directories(raidstream-object SYSTEM PUBLIC src/libschifra/include)
 
 add_subdirectory(src/sole)
-target_link_libraries(raidstream-object sole)
+target_link_libraries(raidstream-object PRIVATE sole)
 target_include_directories(raidstream-object SYSTEM PUBLIC src/sole)
 
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+add_subdirectory(src/json)
+target_link_libraries(raidstream-object PRIVATE nlohmann_json::nlohmann_json)
+target_include_directories(raidstream-object SYSTEM PUBLIC src/json/single_include)
+
 add_executable(raidstream-test src/RaidStream/test.cpp)
-target_link_libraries(raidstream-test raidstream-static $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,9.0>>:stdc++fs>)
+target_link_libraries(raidstream-test PRIVATE raidstream-static $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,9.0>>:stdc++fs>)
 target_include_directories(raidstream-test SYSTEM PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
+target_include_directories(raidstream-test SYSTEM PUBLIC src/json/single_include)

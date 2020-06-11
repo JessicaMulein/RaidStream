@@ -121,21 +121,12 @@ namespace RaidStream {
         return _type;
     }
 
-    std::string RaidConfiguration::TypeString() {
-        switch (this->_type) {
-            case JBOD:        // 0 raid parity algorithms: 0% overhead, 0% redundancy
-                return "JBOD";
-            case MIRROR:      // 0 raid parity algorithms: 50% overhead, 50% redundancy, requires N % 2 = 0
-                return "MIRROR";
-            case RAID5:       // 1 raid parity algorithm, XOR:
-                return "RAID-5";
-            case RAID6:       // 2 raid parity algorithms, XOR, RS
-                return "RAID-6";
-            case EXPERIMENTAL: // 3 raid parity algorithms XOR, RS, XOR+RS(?)
-                return "Experimental";
-            default:
-                return std::string();
+    const std::string RaidConfiguration::TypeString() {
+        std::map<RaidType, const std::string>::const_iterator it = RaidTypeDescriptions.find(_type);
+        if (it != RaidTypeDescriptions.end()) {
+            return it->second;
         }
+        return std::string();
     }
 
     const unsigned long RaidConfiguration::LogCount() {
@@ -164,5 +155,29 @@ namespace RaidStream {
         else /* if (bytes < UNITS_KB) */
             s << bytes << " Bytes";
         return s.str();
+    }
+
+    RaidConfiguration::RaidConfiguration(json configJson, std::ostream *os, std::ostream *oe) : _os{os}, _oe{oe}
+    {
+        if (configJson.contains("uuid")) {
+            const std::string uuid = configJson.at("uuid").get<std::string>();
+            _uuid = sole::rebuild(uuid);
+        } else {
+            this->warn("Config did not contain UUID");
+            _uuid = sole::uuid4();
+        }
+        if (configJson.contains("type")) {
+            _type = configJson.at("type").get<RaidType>();
+        } else {
+            this->error("Config did not contain TYPE");
+        }
+
+    }
+
+    void RaidConfiguration::to_json(json& j, const RaidConfiguration& config) {
+        j = {{ "uuid", config._uuid.str()}};
+        j.push_back({"type", _type});
+        json j_vec(_files);
+        j.push_back({"files", j_vec});
     }
 }

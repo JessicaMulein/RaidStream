@@ -4,3 +4,6 @@
 [submodule "src/libschifra"]
 	path = src/libschifra
 	url = git@github.com:jessica-mulein/libschifra.git
+[submodule "src/json"]
+	path = src/json
+	url = git@github.com:nlohmann/json.git
